@@ -1,7 +1,8 @@
-# How to use UEF eduroam with Linux
+# How to use UEF eduroam with Debian/Ubuntu based Linux distros
 
 Setting up eduroam on linux required a few steps. Here we go:
 
+0. Install python with `sudo apt install python3`
 1. Download eduroam certificate installer [https://kamu.uef.fi/tyokalut/langattomat-verkot-uefissa/](https://kamu.uef.fi/tyokalut/langattomat-verkot-uefissa/)
 2. Open terminal and go to Downloads folder, probably `/home/<user>/Downloads`. 
 3. Run certificate downloader with `python <name of downloaded file>.py`.

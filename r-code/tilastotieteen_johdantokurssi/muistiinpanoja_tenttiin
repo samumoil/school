@@ -1,0 +1,50 @@
+# Valmistellaan R-Studio ohjelmaa
+install.packages("remotes")
+# Asennettaan tietty paketti
+remotes::install_github("jukop/datas4uef")
+# Otetaan kirjasto käyttöön
+library(datas4uef)
+# Luodaan data.frame kirjaston tietystä osasta "aineistoA_dat"
+data("aineistoA_dat")
+
+# Järjestä ainestoa
+sort(aineistoA_dat$ikä)
+
+# Tunnuslukuja
+mean(aineistoA_dat$ikä)
+median(aineistoA_dat$ikä)
+quantile(aineistoA_dat$ikä)
+
+var(aineistoA_dat$ikä)
+sd(aineistoA_dat$ikä)
+
+# Taulukointia
+taul <-table(aineistoA_dat$tiedekunta,aineistoA_dat$tarpeellisuus)
+taul
+rowSums(taul)
+colSums(taul)
+sum(taul)
+# Sijoitetaan taulukko muuttujaan x ja tarkastellaan sitä
+x <- taul
+x
+# Sijoitetaan muuttujaan y taulukon sarakesummat ja tarkastellaan sitä
+y <- rbind(x,colSums(taul))
+y
+# Tarkistetaan, että y-taulukon rivisummat ovat oikein
+rowSums(y)
+# Sijoitetaan muuttujaan z y-taulukko rivisummineen ja tarkastellaan sitä
+z <- cbind(y,rowSums(y))
+
+# Funktiot toimii
+funktio <- function(x) -3/34*x^2+15/34*x
+funktio
+integrate(funktio, 1, 3)
+plot(funktio,-100,100)
+plot(funktio,1,3)
+integrate(funktio, 1.5, 2)
+
+# Luo lukusarja eli sekvenssi (0=aloitus, 10=lopetus, 1=hyppy)
+toot <- seq(0,10,1)
+toot
+
+### Diskreetin muuttujan binomijakauma

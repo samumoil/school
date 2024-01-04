@@ -15,6 +15,9 @@ mean(aineistoA_dat$ikä)
 median(aineistoA_dat$ikä)
 quantile(aineistoA_dat$ikä)
 
+# Viisi tunnuslukua
+summary(x) 
+
 var(aineistoA_dat$ikä)
 sd(aineistoA_dat$ikä)
 

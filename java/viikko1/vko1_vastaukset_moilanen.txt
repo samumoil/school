@@ -1,0 +1,193 @@
+TEHTÄVÄ 1:
+public class Vastaus{
+    public void Tulosta()
+    {
+        System.out.printf("Hei maailma!");
+    }
+}
+
+
+TEHTÄVÄ 2:
+public void TulostaRivinvaihdolla(String a, String b)
+{
+System.out.println(a);
+System.out.println(b);
+}
+
+public void Tulosta(String a, String b)
+{
+System.out.print(a + b);
+}
+
+TEHTÄVÄ 3:
+public double Keskiarvo(double a, double b, double c){
+    return (a+b+c)/3;
+}
+
+private int Summa(int a, int b, int c, int d){
+    return (a+b+c+d);
+}
+
+
+TEHTÄVÄ 4:
+public int MuunnaKokonaisluvuksi(String s)
+{
+    try {
+        int luku = Integer.parseInt(s);
+        return luku;
+    }catch (Exception E){
+        System.out.println(E);
+        return 0;
+    }
+
+}
+
+public double MuunnaDesimaaliksi(String s)
+{
+    try {
+        double luku = Double.parseDouble(s);
+        return luku;
+    }catch (Exception E){
+        System.out.println(E);
+        return 0;
+    }
+
+}
+
+
+TEHTÄVÄ 5:
+private void ParillinenMaaraKirjaimia(String teksti)
+{
+    System.out.println("Teksti: " + teksti );
+    int pituus = teksti.length();
+
+    if (pituus == 0){
+        System.out.println("Tyhjä teksti!");
+    }
+    else if (pituus%2 == 0){
+        System.out.println("Parillinen määrä kirjaimia!");
+    }
+    else {
+        System.out.println("Pariton määrä kirjaimia!");
+    }
+}
+
+
+TEHTÄVÄ 6:
+int[] numerot = new int[10];
+for (int i = 0; i < 10; i++){
+   numerot[i] = i+1;
+}
+
+char[] kirjaimet = new char[7];
+char kirjain = 'a';
+for (int i = 0; i < 7; i++){
+   kirjaimet[i] = kirjain++;
+}
+
+
+TEHTÄVÄ 7:
+public static void Silmukat(int forKierrokset, int whileKierrokset){
+    for (int i = 0; i < forKierrokset; i++){
+        System.out.println("for:" + i);
+    }
+    int j = 0;
+    while (j < whileKierrokset){
+        System.out.println("while:" + j);
+        j++;
+    }
+}
+
+
+TEHTÄVÄ 8:
+public static void TulostaEnsimmainen(int[] taulukko)
+{
+    System.out.println(taulukko[0]);
+}
+
+public static void TulostaViimeinen(int[] taulukko)
+{
+    System.out.println(taulukko[taulukko.length-1]);
+}
+
+public static void TulostaTaulukko(int[] taulukko)
+{
+    for (int i : taulukko){
+        System.out.println(i);
+    }
+}
+
+
+TEHTÄVÄ 9:
+public static void ToistoTulostus(String a, int n){
+    for (int i=0; i<n; i++){
+        System.out.println(a);
+    }
+}
+
+public static int SuurinNeljasta(int a, int b, int c, int d){
+    int suurin = a;
+    if (b > suurin){
+        suurin = b;
+    }
+    if (c > suurin){
+        suurin = c;
+    }
+    if (d > suurin){
+        suurin = d;
+    }
+    return suurin;
+}
+
+public static float Pienenna(float luku, float raja, float askel){
+    float palautus = luku;
+    while(palautus > raja){
+        palautus -= askel;
+    }
+    return palautus;
+}
+
+
+TEHTÄVÄ 10:
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Tiedosto {
+    public static void LueRuudulle(String tiedostoNimi){
+        try {
+            File tiedostoOlio = new File(tiedostoNimi);
+            Scanner lukuOlio = new Scanner(tiedostoOlio);
+
+            while(lukuOlio.hasNext()){
+                System.out.println(lukuOlio.nextLine());
+            }
+        } catch (Exception FileNotFoundException){
+        }
+    }
+}
+
+
+
+TEHTÄVÄ 11:
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lista {
+    public static List<Integer> Kaikki(List<String> data, List<String> haettavat) {
+        List<Integer> palautus = new ArrayList<>();
+
+        for (int i = 0; i < data.size(); i++) {
+            String sana1 = data.get(i);
+
+            for (int j = 0; j < haettavat.size(); j++) {
+                String sana2 = haettavat.get(j);
+
+                if (sana1.equals(sana2)) {
+                    palautus.add(i);
+                }
+            }
+        }
+        return palautus;
+    }
+}

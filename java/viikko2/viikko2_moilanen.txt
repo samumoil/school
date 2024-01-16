@@ -1,0 +1,237 @@
+######################################
+TEHTÄVÄ 1:
+public class Main {
+    public static void main(String[] args) {
+        Biisi lentoon = new Biisi("Lentoon", "Tiktak", 120000);
+        System.out.println(lentoon.getNimi() + ", " +
+            lentoon.getEsittaja() + ", " +
+            lentoon.getSpotifySoittomaara());
+
+        Biisi sutsisatsi = new Biisi("Sutsisatsi", "Fröbelin palikat", 401022);
+        System.out.println(sutsisatsi.getNimi() + ", " +
+                sutsisatsi.getEsittaja() + ", " +
+                sutsisatsi.getSpotifySoittomaara());
+
+        Biisi humalahullu = new Biisi("Humalahullu", "Vilma Jää", 61963);
+        System.out.println(humalahullu.getNimi() + ", " +
+                humalahullu.getEsittaja() + ", " +
+                humalahullu.getSpotifySoittomaara());
+    }
+}
+
+
+public class Biisi {
+    private String nimi;
+    private String esittaja;
+    private int spotifySoittomaara;
+
+    public Biisi(){
+    }
+    public Biisi(String n, String e, int s){
+        nimi = n;
+        esittaja = e;
+        spotifySoittomaara = s;
+    }
+
+    public void setNimi(String n){
+        nimi = n;
+    }
+    public void setEsittaja(String e){
+        esittaja = e;
+    }
+    public void setSpotifySoittomaara(int s){
+        spotifySoittomaara = s;
+    }
+
+    public String getNimi(){
+        return nimi;
+    }
+    public String getEsittaja(){
+        return esittaja;
+    }
+    public int getSpotifySoittomaara(){
+        return spotifySoittomaara;
+    }
+}
+
+
+######################################
+TEHTÄVÄ 2:
+
+public class Main {
+    public static void main(String[] args) {
+        Suorakulmio olio = new Suorakulmio(23, 29, "Moikka");
+        System.out.println(olio.luku1 + ", " + olio.luku2 + ", " + olio.s1);
+        System.out.println("Kertolaskun tulos on: " + olio.kerro());
+        System.out.println(olio.s1);
+    }
+}
+
+public class Suorakulmio {
+    public int luku1, luku2;
+    public String s1;
+
+    public Suorakulmio(){
+        //Integer muuttujien oletusarvo on nolla, ei tarvitse määritellä.
+    }
+    public Suorakulmio(int inLuku1, int inLuku2, String inS1){
+        luku1 = inLuku1;
+        luku2 = inLuku2;
+        s1 = inS1;
+    }
+
+    public int kerro() {
+        int tulo = luku1 * luku2;
+        return tulo;
+    }
+}
+
+######################################
+TEHTÄVÄ 3:
+
+a + b)
+Jokaisella oliolla on omat x- ja y- kenttänsä, joten kumpaakin on kolme.
+Niiden arvot ovat kyllä samat, eli z:n arvo.
+
+c)
+Kunkin kolmen olion z-arvo osoittaa yhteen paikkaan, joten periaatteessa
+kenttiä on vain yksi.
+
+d)
+Ne ovat sama kuin staattinen z-arvo, joka asetetaan metodilla asetaJuttu()
+
+e)
+kolme.asetaJuttu(3);
+
+
+######################################
+TEHTÄVÄ 4:
+
+public class Main {
+    public static void main(String[] args) {
+        Suorakulmio olio1 = new Suorakulmio(4,40);
+        Suorakulmio olio2 = new Suorakulmio(3.5, 35.9);
+        System.out.println("4 40 " + olio1.getAla() + " " + olio1.getYmparys());
+        System.out.println("3.5 35.9 " + olio2.getAla() + " " + olio2.getYmparys());
+    }
+}
+
+public class Suorakulmio {
+    private double leveys = 1;
+    private double korkeus = 1;
+
+    public Suorakulmio(){}
+    public Suorakulmio(double lev, double kor){
+        leveys = lev;
+        korkeus = kor;
+    }
+
+    public double getAla(){
+        return leveys * korkeus;
+    }
+
+    public double getYmparys(){
+        return (2*leveys + 2*korkeus);
+    }
+
+}
+
+######################################
+TEHTÄVÄ 5:
+
+public class Main {
+    public static void main(String[] args) {
+        Osake nok = new Osake("NOK", "Nokia OYJ");
+        nok.setEdellinenHinta(34.5);
+        nok.setNykyinenHinta(34.35);
+
+        System.out.println(nok.getSymboli());
+        System.out.println(nok.getNimi());
+        System.out.println(nok.getEdellinenHinta());
+        System.out.println(nok.getNykyinenHinta());
+        System.out.println(nok.getMuutosProsentti() + " %");
+    }
+}
+
+public class Osake {
+    private String symboli;
+    private String nimi;
+    private double edellinenHinta;
+    private double nykyinenHinta;
+
+    public Osake(String sym, String nim){
+        symboli = sym;
+        nimi = nim;
+    }
+    public void setEdellinenHinta(double ede){
+        edellinenHinta = ede;
+    }
+    public void setNykyinenHinta(double nyk){
+        nykyinenHinta = nyk;
+    }
+
+    public String getSymboli(){ return  symboli; }
+    public String getNimi(){  return  nimi;  }
+    public double getEdellinenHinta() { return  edellinenHinta; }
+    public double getNykyinenHinta(){  return  nykyinenHinta;  }
+
+    public double getMuutosProsentti(){
+        double palautus = (nykyinenHinta - edellinenHinta)/nykyinenHinta*100;
+        return palautus;
+    }
+}
+
+######################################
+TEHTÄVÄ 6:
+
+public class Main {
+    public static void main(String[] args) {
+        Tili uusiTili = new Tili(1122, 20000, 4.5);
+        uusiTili.nosta(2500);
+        uusiTili.talleta(3000);
+        System.out.println(uusiTili.getSaldo());
+        System.out.println(uusiTili.getKuukausiKorko());
+        System.out.println(uusiTili.getLuontiPaiva());
+    }
+}
+
+import java.util.Date;
+
+public class Tili {
+    private int id;
+    private double saldo;
+    private double vuosiKorko;
+    private Date luontiPaiva;
+
+    public Tili(){}
+    public Tili(int tiliNumero, double sal, double vuoKor){
+        id = tiliNumero;
+        saldo = sal;
+        vuosiKorko = vuoKor;
+        luontiPaiva = new Date();
+    }
+
+    public void setId(int tiliNumero) {  id = tiliNumero;  }
+    public int getId() {  return id;  }
+    public void setSaldo(double sal) {  saldo = sal;  }
+    public double getSaldo() {  return saldo;  }
+    public void setVuosiKorko(double kor) {  vuosiKorko = kor;  }
+    public double getVuosiKorko() {  return vuosiKorko;  }
+    public Date getLuontiPaiva() {  return luontiPaiva;  }
+
+    public double getKuukausiKorkoProsentti() {  return vuosiKorko/12;  }
+    public double getKuukausiKorko() {  return saldo*vuosiKorko/100/12;  }
+
+    public void nosta(double nosto) {
+        if (nosto <= saldo) {
+            saldo -= nosto;
+        }
+    }
+
+    public void talleta(double talletus) {  saldo += talletus;  }
+}
+
+######################################
+TEHTÄVÄ 7:
+
+

@@ -1,5 +1,7 @@
 ######################################
 TEHTÄVÄ 1:
+######################################
+
 public class Main {
     public static void main(String[] args) {
         Biisi lentoon = new Biisi("Lentoon", "Tiktak", 120000);
@@ -57,6 +59,7 @@ public class Biisi {
 
 ######################################
 TEHTÄVÄ 2:
+######################################
 
 public class Main {
     public static void main(String[] args) {
@@ -88,6 +91,7 @@ public class Suorakulmio {
 
 ######################################
 TEHTÄVÄ 3:
+######################################
 
 a + b)
 Jokaisella oliolla on omat x- ja y- kenttänsä, joten kumpaakin on kolme.
@@ -106,6 +110,7 @@ kolme.asetaJuttu(3);
 
 ######################################
 TEHTÄVÄ 4:
+######################################
 
 public class Main {
     public static void main(String[] args) {
@@ -138,6 +143,7 @@ public class Suorakulmio {
 
 ######################################
 TEHTÄVÄ 5:
+######################################
 
 public class Main {
     public static void main(String[] args) {
@@ -183,6 +189,7 @@ public class Osake {
 
 ######################################
 TEHTÄVÄ 6:
+######################################
 
 public class Main {
     public static void main(String[] args) {
@@ -233,5 +240,60 @@ public class Tili {
 
 ######################################
 TEHTÄVÄ 7:
+######################################
 
+public class Main {
+    public static void main(String[] args) {
+        Tuuletin tuuletin1 = new Tuuletin();
+        Tuuletin tuuletin2 = new Tuuletin();
 
+        tuuletin1.setNopeus(3);
+        tuuletin1.setHalkaisija(10);
+        tuuletin1.setVari("keltainen");
+        tuuletin1.setKytketty(true);
+
+        tuuletin2.setNopeus(2);
+        tuuletin2.setHalkaisija(5);
+        tuuletin2.setVari("blue");
+        tuuletin2.setKytketty(false);
+
+        System.out.println(tuuletin1.toString());
+        System.out.printf(tuuletin2.toString());
+    }
+}
+
+public class Tuuletin {
+    private static int HIDAS = 1;
+    private static int NORMAALI = 2;
+    private static int NOPEA = 3;
+    private int nopeus = HIDAS;
+    private boolean kytketty = false;
+    private double halkaisija = 5;
+    private String vari = "blue";
+
+    public void setNopeus(int nop) {  nopeus = nop;  }
+    public int getNopeus() {  return nopeus;  }
+    public void setKytketty(boolean kytk) {  kytketty = kytk;  }
+    public boolean getKytketty() {  return kytketty; }
+    public void setHalkaisija(double halk) {  halkaisija = halk;  }
+    public double getHalkaisija() {  return halkaisija;  }
+    public void setVari(String var) {  vari = var;  }
+    public String getVari() {  return vari;  }
+
+    public Tuuletin(){}
+
+    public String toString() {
+        String palautus;
+        if (kytketty) {
+            String nopeusTeksti;
+            if (nopeus == 1) {  nopeusTeksti = "HIDAS";  }
+            else if (nopeus == 2) {  nopeusTeksti = "NORMAALI";  }
+            else {  nopeusTeksti = "NOPEA";  }
+            palautus = nopeusTeksti + " " + vari + " " + Double.toString(halkaisija/2);
+        }
+        else {
+            palautus = vari + " " + Double.toString(halkaisija) + " tuuletin ei ole päällä";
+        }
+        return palautus;
+    }
+}

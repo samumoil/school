@@ -1,3 +1,7 @@
+####
+Kaikki kooditehtävät on toteutettu niin, että ne toimivat yhdestä tiedostosta.
+Ei tarvitse luoda erillistä tiedostoa pääluokalle ja toiselle luokalle.
+
 ######################################
 TEHTÄVÄ 1:
 ######################################
@@ -22,19 +26,20 @@ public class Main {
 }
 
 
-public class Biisi {
+class Biisi {
     private String nimi;
     private String esittaja;
     private int spotifySoittomaara;
 
-    public Biisi(){
-    }
+    public Biisi(){}
+    
     public Biisi(String n, String e, int s){
         nimi = n;
         esittaja = e;
         spotifySoittomaara = s;
     }
-
+	
+	// ### a-kohta alkaa ###
     public void setNimi(String n){
         nimi = n;
     }
@@ -45,6 +50,7 @@ public class Biisi {
         spotifySoittomaara = s;
     }
 
+	// ### b-kohta alkaa ###
     public String getNimi(){
         return nimi;
     }
@@ -61,6 +67,7 @@ public class Biisi {
 TEHTÄVÄ 2:
 ######################################
 
+// ### c-kohta ###
 public class Main {
     public static void main(String[] args) {
         Suorakulmio olio = new Suorakulmio(23, 29, "Moikka");
@@ -70,13 +77,16 @@ public class Main {
     }
 }
 
-public class Suorakulmio {
+class Suorakulmio {
     public int luku1, luku2;
     public String s1;
 
+	// ### a-kohta ###
     public Suorakulmio(){
         //Integer muuttujien oletusarvo on nolla, ei tarvitse määritellä.
     }
+
+	// ### b-kohta ###
     public Suorakulmio(int inLuku1, int inLuku2, String inS1){
         luku1 = inLuku1;
         luku2 = inLuku2;
@@ -112,6 +122,7 @@ kolme.asetaJuttu(3);
 TEHTÄVÄ 4:
 ######################################
 
+// ### f-kohta ###
 public class Main {
     public static void main(String[] args) {
         Suorakulmio olio1 = new Suorakulmio(4,40);
@@ -121,20 +132,26 @@ public class Main {
     }
 }
 
-public class Suorakulmio {
+class Suorakulmio {
+	// ### a-kohta ###
     private double leveys = 1;
     private double korkeus = 1;
 
+	// ### b-kohta ###
     public Suorakulmio(){}
+	
+	// ### c-kohta ###
     public Suorakulmio(double lev, double kor){
         leveys = lev;
         korkeus = kor;
     }
 
+	// ### d-kohta ###
     public double getAla(){
         return leveys * korkeus;
     }
 
+	// ### e-kohta ###
     public double getYmparys(){
         return (2*leveys + 2*korkeus);
     }
@@ -145,6 +162,7 @@ public class Suorakulmio {
 TEHTÄVÄ 5:
 ######################################
 
+// ### g-kohta ###
 public class Main {
     public static void main(String[] args) {
         Osake nok = new Osake("NOK", "Nokia OYJ");
@@ -159,12 +177,17 @@ public class Main {
     }
 }
 
-public class Osake {
+class Osake {
+	// ### a-kohta ###
     private String symboli;
+	// ### b-kohta ###
     private String nimi;
+	// ### c-kohta ###
     private double edellinenHinta;
+	// ### d-kohta ###
     private double nykyinenHinta;
 
+	// ### e-kohta ###
     public Osake(String sym, String nim){
         symboli = sym;
         nimi = nim;
@@ -181,6 +204,7 @@ public class Osake {
     public double getEdellinenHinta() { return  edellinenHinta; }
     public double getNykyinenHinta(){  return  nykyinenHinta;  }
 
+	// ### f-kohta ###
     public double getMuutosProsentti(){
         double palautus = (nykyinenHinta - edellinenHinta)/nykyinenHinta*100;
         return palautus;
@@ -191,6 +215,8 @@ public class Osake {
 TEHTÄVÄ 6:
 ######################################
 
+// ### m-kohta ###
+import java.util.Date;
 public class Main {
     public static void main(String[] args) {
         Tili uusiTili = new Tili(1122, 20000, 4.5);
@@ -202,15 +228,19 @@ public class Main {
     }
 }
 
-import java.util.Date;
-
-public class Tili {
+class Tili {
+    // ### a-kohta ###
     private int id;
+    // ### b-kohta ###
     private double saldo;
+    // ### c-kohta ###
     private double vuosiKorko;
+    // ### d-kohta ###
     private Date luontiPaiva;
 
+    // ### e-kohta ###
     public Tili(){}
+    // ### f-kohta ###
     public Tili(int tiliNumero, double sal, double vuoKor){
         id = tiliNumero;
         saldo = sal;
@@ -218,23 +248,30 @@ public class Tili {
         luontiPaiva = new Date();
     }
 
+    // ### g-kohta alkaa ###
     public void setId(int tiliNumero) {  id = tiliNumero;  }
     public int getId() {  return id;  }
     public void setSaldo(double sal) {  saldo = sal;  }
     public double getSaldo() {  return saldo;  }
     public void setVuosiKorko(double kor) {  vuosiKorko = kor;  }
     public double getVuosiKorko() {  return vuosiKorko;  }
+
+    // ### h-kohta ###
     public Date getLuontiPaiva() {  return luontiPaiva;  }
 
+    // ### i-kohta ###
     public double getKuukausiKorkoProsentti() {  return vuosiKorko/12;  }
+    // ### j-kohta ###
     public double getKuukausiKorko() {  return saldo*vuosiKorko/100/12;  }
 
+    // ### k-kohta ###
     public void nosta(double nosto) {
         if (nosto <= saldo) {
             saldo -= nosto;
         }
     }
 
+    // ### l-kohta ###
     public void talleta(double talletus) {  saldo += talletus;  }
 }
 
@@ -242,6 +279,7 @@ public class Tili {
 TEHTÄVÄ 7:
 ######################################
 
+// ### i-kohta ###
 public class Main {
     public static void main(String[] args) {
         Tuuletin tuuletin1 = new Tuuletin();
@@ -262,15 +300,21 @@ public class Main {
     }
 }
 
-public class Tuuletin {
+class Tuuletin {
+    // ### a-kohta ###
     private static int HIDAS = 1;
     private static int NORMAALI = 2;
     private static int NOPEA = 3;
+    // ### b-kohta ###
     private int nopeus = HIDAS;
+    // ### c-kohta ###
     private boolean kytketty = false;
+    // ### d-kohta ###
     private double halkaisija = 5;
+    // ### e-kohta ###
     private String vari = "blue";
 
+    // ### f-kohta alkaa ###
     public void setNopeus(int nop) {  nopeus = nop;  }
     public int getNopeus() {  return nopeus;  }
     public void setKytketty(boolean kytk) {  kytketty = kytk;  }
@@ -280,8 +324,10 @@ public class Tuuletin {
     public void setVari(String var) {  vari = var;  }
     public String getVari() {  return vari;  }
 
+    // ### g-kohta ###
     public Tuuletin(){}
 
+    // ### h-kohta alkaa ###
     public String toString() {
         String palautus;
         if (kytketty) {
@@ -294,6 +340,6 @@ public class Tuuletin {
         else {
             palautus = vari + " " + Double.toString(halkaisija) + " tuuletin ei ole päällä";
         }
-        return palautus;
+            return palautus;
     }
 }

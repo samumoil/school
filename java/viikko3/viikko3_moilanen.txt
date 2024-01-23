@@ -1,3 +1,10 @@
+####
+Kaikki kooditehtävät on toteutettu niin, että ne toimivat yhdestä tiedostosta.
+Ei tarvitse luoda erillistä tiedostoa pääluokalle ja toiselle luokalle.
+
+######################################
+TEHTÄVÄ 1:
+######################################
 
 class Kurssi {
     private int kurssikoodi;
@@ -67,9 +74,43 @@ public class Main {
         laajin = kurssi3;
     System.out.println("Laajin kurssi on: " + laajin.toString());
 
-    // ########## d v-kohta ##########
+// ########## d v-kohta ##########
     System.out.println("Onko kurssi 1 laaja? " + kurssi1.laaja());
     System.out.println("Onko kurssi 2 laaja? " + kurssi2.laaja());
     System.out.println("Onko kurssi 3 laaja? " + kurssi3.laaja());
     }
 }
+
+
+######################################
+TEHTÄVÄ 2:
+######################################
+
+
+######################################
+TEHTÄVÄ 3:
+######################################
+
+
+
+######################################
+TEHTÄVÄ 4:
+######################################
+
+
+######################################
+TEHTÄVÄ 5:
+######################################
+
+
+######################################
+TEHTÄVÄ 6:
+######################################
+
+
+
+######################################
+TEHTÄVÄ 7:
+######################################
+
+

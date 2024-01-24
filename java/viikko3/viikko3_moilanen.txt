@@ -143,11 +143,207 @@ public class Main {
 TEHTÄVÄ 4:
 ######################################
 
+public class SaaAsema {
+
+// ########## a-kohta ##########
+    private double lampotila;
+// ########## b-kohta ##########
+    private double paine;
+
+// ########## c-kohta ##########
+    public SaaAsema(){
+        this.lampotila = 0;
+        this.paine = 1;
+    }
+
+// ########## d-kohta ##########
+    public SaaAsema(double lampotila, double paine){
+        this.lampotila = lampotila;
+        this.paine = paine;
+    }
+
+// ########## e-kohta ##########
+    public static SaaAsema luoSaaAsema(double lampoFahr, double painePSI){
+        SaaAsema outoOlio = new SaaAsema();
+        outoOlio.setFahrenheit(lampoFahr);
+        outoOlio.setPSI(painePSI);
+        return outoOlio;
+    }
+
+// ########## f-kohta ##########
+    public double getLampotila(){  return lampotila;  }
+    public double getPaine(){  return paine;  }
+    public void setLampotila(double lampotila){  this.lampotila = lampotila;  }
+    public void setPaine(double paine){  this.paine = paine;  }
+
+// ########## g-kohta ##########
+    public double getFahrenheit(){  return (lampotila*1.8)+32;  }
+    public double getPSI(){  return paine/0.0689475729;  }
+
+// ########## h-kohta ##########
+    public void setFahrenheit(double lampoFahr){
+        this.lampotila = (lampoFahr-32)/1.8;
+    }
+    public void setPSI(double painePSI){
+        this.paine = painePSI*0.0689475729;
+    }
+
+// ########## ekstraa helpottamaan testausta pääohjelmassa ##########
+    public String toString(){
+        String palautus = "\nLämpötila celsius-asteina on: " + lampotila +
+                "\nLämpötila fahrenheit-asteina on: " + this.getFahrenheit() +
+                "\nPaine baareina on: " + paine +
+                "\nPaine PSI on: " + this.getPSI();
+        return palautus;
+    }
+}
+
+// ########## i-kohta ##########
+public class Main {
+    public static void main(String[] args) {
+        // Testataan oletusalustaja
+        SaaAsema oletusOlio = new SaaAsema();
+        System.out.println("\noletusOlio" + oletusOlio);
+
+        // Testataan parametroitava alustaja
+        SaaAsema asemaSI = new SaaAsema(12.3, 1.034);
+        System.out.println("\nasemaSI" + asemaSI);
+
+        // Testataan fahrenheit + PSI alustaja/metodi
+        SaaAsema asemaFahrPSI = SaaAsema.luoSaaAsema(33, 15);
+        System.out.println("\nasemaFahrPSI" + asemaFahrPSI);
+
+        // Testataan set- ja get-metodit SI-järjestelmän muuttujille
+        oletusOlio.setLampotila(10);
+        oletusOlio.setPaine(1.5);
+        System.out.println("\nTämän pitäisi antaa 10: " + oletusOlio.getLampotila());
+        System.out.println("Tämän pitäisi antaa 1.5: " + oletusOlio.getPaine());
+
+        // Testataan set- ja get-metodit höpö-järjestelmän muuttujille
+        oletusOlio.setFahrenheit(40);
+        oletusOlio.setPSI(20);
+        System.out.println("\nTämän pitäisi antaa 40: " + oletusOlio.getFahrenheit());
+        System.out.println("Tämän pitäisi antaa 20: " + oletusOlio.getPSI());
+    }
+}
+
 
 ######################################
 TEHTÄVÄ 5:
 ######################################
 
+/**
+ * Class/object representation of one customer's information.
+ * This class doesn't have default constructor and it needs
+ * to be constructed with parameters.
+ *
+ * @param   nimi    Customer's name
+ * @param   osoite  Customer's address
+ * @param   kengannumero    Customer's shoe size
+ * @param   hatunkoko   Customer's hat size
+ * @author Samu Moilanen
+ */
+public class Asiakas {
+
+    // ########## a-kohta ##########
+    private String nimi;
+    private String osoite;
+    private double kengannumero;
+    private double hatunkoko;
+
+    // ########## b-kohta ##########
+
+    /**
+     * Only constructor of this class.
+     *
+     * @param   nimi    Customer's name
+     * @param   osoite  Customer's address
+     * @param   kengannumero    Customer's shoe size
+     * @param   hatunkoko   Customer's hat size
+     */
+    public Asiakas(String nimi, String osoite, double kengannumero, double hatunkoko){
+        this.nimi = nimi;
+        this.osoite = osoite;
+        this.kengannumero = kengannumero;
+        this.hatunkoko = hatunkoko;
+    }
+
+    // ########## c-kohta ##########
+    public void setNimi(String nimi){  this.nimi = nimi;  }
+    public void setOsoite(String osoite){  this.osoite = osoite;  }
+    public void setKengannumero(double kengannumero){  this.kengannumero = kengannumero;  }
+    public void setHatunkoko(double hatunkoko){  this.hatunkoko = hatunkoko;  }
+    public String getNimi(){  return nimi;  }
+    public String getOsoite(){ return osoite;  }
+    public double getKengannumero(){  return kengannumero;  }
+    public double getHatunkoko(){  return hatunkoko;  }
+
+    // ########## d-kohta ##########
+    public boolean equals(Asiakas verrokki){
+        boolean palautus = false;
+        if (
+                this.nimi == verrokki.getNimi() &&
+                        this.osoite == verrokki.getOsoite() &&
+                        this.kengannumero == verrokki.getKengannumero() &&
+                        this.hatunkoko == verrokki.getHatunkoko()
+        )
+            palautus = true;
+        return palautus;
+    }
+
+    public Asiakas copy(){
+        Asiakas palautus = new Asiakas(
+                this.getNimi(),
+                this.getOsoite(),
+                this.getKengannumero(),
+                this.getHatunkoko()
+        );
+        return palautus;
+    }
+
+    public String toString(){
+        String palautus = "Asiakkaan nimi: " + this.nimi +
+                "\nOsoite: " + this.osoite +
+                "\nKengännumero: " + this.kengannumero +
+                "\nHatunkoko: " + this.hatunkoko;
+        return palautus;
+    }
+}
+
+
+// ########## f-kohta ##########
+public class Main {
+    public static void main(String[] args) {
+        // Luodaan kaksi oliota
+        Asiakas asiakas1 = new Asiakas(
+                "Matti Meikäläinen",
+                "Mattilaisenkatu 1",
+                43,
+                50
+        );
+        Asiakas asiakas2 = new Asiakas(
+                "Taatto Tötterstön",
+                "Hakkaraisentie 666",
+                36,
+                43
+        );
+
+        // Kopioidaan toisen asiakkaan tiedot kolmanteen
+        Asiakas asiakas3 = asiakas2.copy();
+
+        // Tutkitaan yhtäsuuruutta
+        System.out.println(
+                "Ovatko asiakas1 ja asiakas2 samoja? " + asiakas1.equals(asiakas2) +
+                "\nOvatko asiakas1 ja asiakas3 samoja? " + asiakas1.equals(asiakas3) +
+                "\nOvatko asiakas2 ja asiakas3 samoja? " + asiakas2.equals(asiakas3)
+        );
+
+        // Tulostetaan kaikkien olioiden tiedot
+        System.out.println("\n" + asiakas1);
+        System.out.println("\n" + asiakas2);
+        System.out.println("\n" + asiakas3);
+    }
+}
 
 ######################################
 TEHTÄVÄ 6:

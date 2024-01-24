@@ -46,9 +46,9 @@ public class SaaAsema {
 // ########## ekstraa helpottamaan testausta pääohjelmassa ##########
     public String toString(){
         String palautus = "\nLämpötila celsius-asteina on: " + lampotila +
-                "\nLämpötila fahrenheit-asteina on: " + (lampotila*1.8+32) +
+                "\nLämpötila fahrenheit-asteina on: " + this.getFahrenheit() +
                 "\nPaine baareina on: " + paine +
-                "\nPaine PSI on: " + paine/0.0689475729;
+                "\nPaine PSI on: " + this.getPSI();
         return palautus;
     }
 }

@@ -12,6 +12,14 @@ class Pankkitili {
     // ### e-kohta ###
     public Pankkitili(){}
     // ### f-kohta ###
+
+    /**
+     * Method creates an object representing one bank account.
+     *
+     * @param tiliNumero    ID-number of the bank account.
+     * @param sal           Current amount of money in the account.
+     * @param vuoKor        Yearly interest of the account, percent.
+     */
     public Pankkitili(int tiliNumero, double sal, double vuoKor){
         id = tiliNumero;
         saldo = sal;
@@ -44,4 +52,11 @@ class Pankkitili {
 
     // ### l-kohta ###
     public void talleta(double talletus) {  saldo += talletus;  }
+
+    // ### Ekstraa viikon 3 tehtävää 7 varten:
+    public String toString(){
+        String palautus = "\nTilinumero: " + getId() +
+                "\nTilin saldo: " + getSaldo();
+        return palautus;
+    }
 }

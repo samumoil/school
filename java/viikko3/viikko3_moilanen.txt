@@ -423,4 +423,221 @@ class Pankkitili {
 TEHTÄVÄ 7:
 ######################################
 
+// ########## Main.java ##########
+import java.util.Scanner;
 
+public class Main {
+    public static void main(String[] args) {
+        Scanner skanneri = new Scanner(System.in);
+        int valinta;
+
+        System.out.println("\nTämä on ohjelman alustaja: Kuinka monta tiliä luodaan? (1-999)");
+        valinta = skanneri.nextInt();
+
+        // Syötetään haluttu tilien määrä LuoMallitilit luokan metodille luoTilit, joka palauttaa taulukon pääohjelman käyttöön.
+        Pankkitili[] tiliTaulukko = LuoMallitilit.luoTilit(valinta);
+
+        // Tämän muotoisella odottajalla varmistetaan, että käyttäjä ehtii lukea ohjelman antamat tiedot.
+        System.out.printf("(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+        skanneri.nextLine();
+
+        boolean jatkuu = true;
+        int valittuTilinumero = 0;
+        int valitunTilinIndeksi = 9999;
+
+        while (jatkuu == true){
+            System.out.println("------------------------------------------------" +
+                    "\nTervetuloa verkkopankkiin!\n" +
+                    "Tällä hetkellä valittuna on tilinumero: " + valittuTilinumero +
+                    "\n\nValitse toiminto 1-5:" +
+                    "\n1) Anna tilinumero" +
+                    "\n2) Tarkista saldo" +
+                    "\n3) Nosta rahaa tililtä" +
+                    "\n4) Talleta rahaa tilille" +
+                    "\n5) Sulje ohjelma ja poistu verkkopankista");
+            valinta = skanneri.nextInt();
+
+            if (valinta == 1) {
+                boolean validiTilinumero = false;
+                // Tarkistetaan, onko annettu tilinumero olemassa
+                while (!validiTilinumero) {
+                    System.out.println("Toiminto 1\nValitse tili antamalla tilinumero: ");
+                    valittuTilinumero = skanneri.nextInt();
+
+                    // Poistutaan kierrokselta, jos käyttäjä valitsee "9999"
+                    if (valittuTilinumero == 9999){
+                        validiTilinumero = true;
+                        valittuTilinumero = 0;
+                    }
+
+                    else {
+                        System.out.println("Annoit tilinumeron: " + valittuTilinumero);
+
+                        // Tarkistetaan, onko tilinumeroa olemassa. Samalla muunnetaan saatu tilinumero indeksimuotoon
+                        for (int i = 0; i < tiliTaulukko.length; i++) {
+                            if (tiliTaulukko[i].getId() == valittuTilinumero) {
+                                valitunTilinIndeksi = i;
+                                validiTilinumero = true;
+                            }
+                        }
+                        if (!validiTilinumero) {
+                            System.out.println("\nAnnettua tilinumeroa ei ole olemassa. Anna oikea tilinumero. Poistu antamalla numero \"9999\".\n");
+                        }
+                    }
+                }
+
+                System.out.printf("\n(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+                skanneri.nextLine();
+            }
+
+            else if (valinta == 2) {
+                if (valittuTilinumero == 0) {
+                    System.out.println("Virhe. Anna ensin tilinumero.");
+                }
+                else {
+                    System.out.println("Toiminto 2\nValitun tilin saldo on " + tiliTaulukko[valitunTilinIndeksi].getSaldo() + " euroa.");
+                }
+
+                System.out.printf("\n(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+                skanneri.nextLine();
+            }
+
+            else if (valinta == 3) {
+                if (valittuTilinumero == 0) {
+                    System.out.println("Virhe. Anna ensin tilinumero.");
+                }
+                else {
+                    System.out.println("Toiminto 3\n" +
+                            "Kuinka paljon rahaa haluat nostaa tililtä?\n" +
+                            "(Tilin saldo on nyt " + tiliTaulukko[valitunTilinIndeksi].getSaldo() + " euroa.)");
+                    double nostoSumma = skanneri.nextDouble();
+                    tiliTaulukko[valitunTilinIndeksi].nosta(nostoSumma);
+                    System.out.println("Nostit " + nostoSumma + " euroa.\n" +
+                            "Valitun tilin saldo on nyt " + tiliTaulukko[valitunTilinIndeksi].getSaldo() + " euroa.");
+                }
+                System.out.printf("\n(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+                skanneri.nextLine();
+            }
+
+            else if (valinta == 4) {
+                if (valittuTilinumero == 0) {
+                    System.out.println("Virhe. Anna ensin tilinumero.");
+                }
+                else {
+                    System.out.println("Toiminto 4\n" +
+                            "Kuinka paljon rahaa haluat tallettaa tilille?");
+                    double talletusSumma = skanneri.nextDouble();
+                    tiliTaulukko[valitunTilinIndeksi].talleta(talletusSumma);
+
+                    System.out.println("Talletit " + talletusSumma + " euroa.\n" +
+                            "Valitun tilin saldo on nyt " + tiliTaulukko[valitunTilinIndeksi].getSaldo() + " euroa.");
+                }
+                System.out.printf("\n(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+                skanneri.nextLine();
+
+            }
+
+            else if (valinta == 5) {
+                System.out.println("Kiitos ja näkemiin!\n");
+                jatkuu = false;
+            }
+        }
+    }
+}
+
+
+// ########## Pankkitili.java ##########
+import java.util.Date;
+class Pankkitili {
+    // ### a-kohta ###
+    private int id;
+    // ### b-kohta ###
+    private double saldo;
+    // ### c-kohta ###
+    private double vuosiKorko;
+    // ### d-kohta ###
+    private Date luontiPaiva;
+
+    // ### e-kohta ###
+    public Pankkitili(){}
+    // ### f-kohta ###
+
+    /**
+     * Method creates an object representing one bank account.
+     *
+     * @param tiliNumero    ID-number of the bank account.
+     * @param sal           Current amount of money in the account.
+     * @param vuoKor        Yearly interest of the account, percent.
+     */
+    public Pankkitili(int tiliNumero, double sal, double vuoKor){
+        id = tiliNumero;
+        saldo = sal;
+        vuosiKorko = vuoKor;
+        luontiPaiva = new Date();
+    }
+
+    // ### g-kohta alkaa ###
+    public void setId(int tiliNumero) {  id = tiliNumero;  }
+    public int getId() {  return id;  }
+    public void setSaldo(double sal) {  saldo = sal;  }
+    public double getSaldo() {  return saldo;  }
+    public void setVuosiKorko(double kor) {  vuosiKorko = kor;  }
+    public double getVuosiKorko() {  return vuosiKorko;  }
+
+    // ### h-kohta ###
+    public Date getLuontiPaiva() {  return luontiPaiva;  }
+
+    // ### i-kohta ###
+    public double getKuukausiKorkoProsentti() {  return vuosiKorko/12;  }
+    // ### j-kohta ###
+    public double getKuukausiKorko() {  return saldo*vuosiKorko/100/12;  }
+
+    // ### k-kohta ###
+    public void nosta(double nosto) {
+        if (nosto <= saldo) {
+            saldo -= nosto;
+        }
+    }
+
+    // ### l-kohta ###
+    public void talleta(double talletus) {  saldo += talletus;  }
+
+    // ### Ekstraa viikon 3 tehtävää 7 varten:
+    public String toString(){
+        String palautus = "\nTilinumero: " + getId() +
+                "\nTilin saldo: " + getSaldo();
+        return palautus;
+    }
+}
+
+// ########## LuoMallitilit.java ##########
+import java.util.Random;
+
+public class LuoMallitilit {
+    /**
+     * This static method returns an array which contains lkm amount of bank accounts.
+     * Account ID is 1001 plus index number of said account, ie. 1001, 1002, 1003 etc.
+     * Each account is created with a random balance of 1000-9999€ and interest of 3.5%.
+     *
+     * @param lkm   How many bank accounts are created.
+     * @return
+     */
+    public static Pankkitili[] luoTilit(int lkm){
+        Pankkitili [] palautettavaLista = new Pankkitili[lkm];
+        Random arpa = new Random();
+        int minimi = 1000, maksimi = 9999;
+        for (int i = 0; i < lkm; i++){
+            palautettavaLista[i] = new Pankkitili(
+                    1001+i,
+                    (arpa.nextInt(maksimi-minimi + 1) + minimi),
+                    /* java.util.Random gives a random number between 0 and "bound". In this case "bound" is 8999 (+1).
+                    After randomization we add the minimum value to the random value given by this method.*/
+                    3.5);
+        }
+        System.out.println("Tulostetaan luotujen tilien tiedot: \n");
+        for (int i = 0; i < palautettavaLista.length; i++){
+            System.out.println("TILI "+ (i+1) + palautettavaLista[i] + "\n");
+        }
+        return palautettavaLista;
+    }
+}

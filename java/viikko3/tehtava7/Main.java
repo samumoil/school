@@ -7,9 +7,8 @@ public class Main {
 
         System.out.println("\nTämä on ohjelman alustaja: Kuinka monta tiliä luodaan? (1-999)");
         valinta = skanneri.nextInt();
-
         // Syötetään haluttu tilien määrä LuoMalliTilit luokan metodille luoTilit, joka palauttaa taulukon pääohjelman käyttöön.
-        Pankkitili[] tiliTaulukko = LuoMallitilit.luoTilit(valinta);
+        Pankkitili[] tiliTaulukko = LuoMalliTilit.luoTilit(valinta);
 
         // Tämän muotoisella odottajalla varmistetaan, että käyttäjä ehtii lukea ohjelman antamat tiedot.
         System.out.printf("(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
@@ -19,7 +18,7 @@ public class Main {
         int valittuTilinumero = 0;
         int valitunTilinIndeksi = 9999;
 
-        while (jatkuu){
+        while (jatkuu == true){
             System.out.println("------------------------------------------------" +
                     "\nTervetuloa verkkopankkiin!\n" +
                     "Tällä hetkellä valittuna on tilinumero: " + valittuTilinumero +

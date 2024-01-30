@@ -35,6 +35,10 @@ SELECT ptun, pnimi,
     END AS sijainti
 FROM hovi.projekti;
 
+    -- Tai sitten näin:
+SELECT ptun, pnimi, COALESCE(sijainti, 'ei ole')
+FROM projekti;
+
 -- 9. Hae henkilo-taulusta suku- ja etunimet yhdistettyn� seuraavan mallin mukaisesti: Virta, Jukka- Laita aliasnimeksi �nimi�.
 SELECT CONCAT(snimi, ", ", enimi, "-") AS nimi FROM hovi.henkilo;
 

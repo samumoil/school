@@ -1,0 +1,295 @@
+######################################
+TEHTÄVÄ 1:
+######################################
+
+// ---------- D.java ----------
+public class D extends C {
+    // ########## a ja b-kohta ##########
+    private double d1;
+    protected double d2;
+
+    // ########## c-kohta ##########
+    public void setD1(double d1){  this.d1 = d1;  }
+    public void setD2(double d2){  this.d2 = d2;  }
+    public double getD1(){  return d1;  }
+    public double getD2(){  return d2;  }
+
+    // ########## Luodaan alustaja ##########
+    public D(){}
+
+    // ########## d-kohta ##########
+    public double laske(int x, int y) {
+        double palautus = x*y;
+        return palautus;
+    }
+}
+
+// ---------- Main.java ----------
+public class Main {
+        public static void main(String [] args) {
+                D olio1 = new D();
+
+                // ########## e-kohta ##########
+                olio1.setD1(1.234);
+                olio1.setD2(2.345);
+                System.out.println("D1 on " + olio1.getD1());
+                System.out.println("D2 on " + olio1.getD2());
+        }
+}
+
+// ---------- C.java ----------
+abstract public class C {
+    private int a;
+    int b;
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
+    abstract public double laske(int x, int y);
+}
+
+
+
+
+
+######################################
+TEHTÄVÄ 2:
+######################################
+
+// ---------- Niminen.java ----------
+// ########## a ja b-kohta ##########
+public interface Niminen{
+    public void setNimi(String n);
+    public String getNimi();
+}
+
+// ---------- Henkilo.java ----------
+// ########## c-kohta ##########
+public class Henkilo implements Niminen
+{
+    private String nimi;
+    public Henkilo(){}  // oletusalustaja
+    public Henkilo(String n){  this.nimi = n;  } // alustaja
+
+    public void setNimi(String n){  this.nimi = n;  }
+    public String getNimi(){  return nimi;  }
+}
+
+// ---------- Main.java ----------
+// ########## d-kohta ##########
+public class Main {
+        public static void main(String [] args) {
+                Henkilo olio1 = new Henkilo("Pentti");
+                System.out.println(olio1.getNimi());
+                olio1.setNimi("Matti");
+                System.out.println(olio1.getNimi());
+        }
+}
+
+
+
+
+
+######################################
+TEHTÄVÄ 3:
+######################################
+
+// ---------- Kirjoitelma.java ----------
+// ########## a-kohta ##########
+public class Kirjoitelma extends Tentti{
+    // ########## a i-kohta ##########
+    private double kielioppi, oikeinkirjoitus, pituus, sisalto;
+
+    // Luodaan alustajat
+    public Kirjoitelma(){}
+    public Kirjoitelma(double kielioppi, double oikeinkirjoitus, double pituus, double sisalto){
+        this.kielioppi = kielioppi;
+        this.oikeinkirjoitus = oikeinkirjoitus;
+        this.pituus = pituus;
+        this.sisalto = sisalto;
+        this.paivitaPisteet();
+    }
+
+    // Set-metodit kirjoitelman eri pisteille, jos on käytetty oletusalustajaa
+    // tai halutaan muuttaa aiemmin merkittyjä pisteitä. Pisteiden lisäyksen jälkeen
+    // päivitetään yhteispisteet.
+
+    // ########## a i-kohta ##########
+    public void setKielioppi(double kielioppi){
+        if (kielioppi < 0 || kielioppi > 30){
+            System.out.println("Kieliopin pistemäärä on 0-30 pistettä. Kirjataan 0 pistettä.");
+        }
+        else {
+            this.kielioppi = kielioppi;
+            this.paivitaPisteet();
+        }
+    }
+    // ########## a ii-kohta ##########
+    public void setOikeinkirjoitus(double oikeinkirjoitus){
+        if (oikeinkirjoitus < 0 || oikeinkirjoitus > 20){
+            System.out.println("Oikeinkirjoituksen pistemäärä on 0-20 pistettä. Kirjataan 0 pistettä.");
+        }
+        else {
+            this.oikeinkirjoitus = oikeinkirjoitus;
+            this.paivitaPisteet();
+        }
+    }
+    // ########## a iii-kohta ##########
+    public void setPituus(double pituus){
+        if (pituus < 0 || pituus > 20) {
+            System.out.println("Pituuden pistemäärä on 0-20 pistettä. Kirjataan 0 pistettä.");
+        }
+        else {
+            this.pituus = pituus;
+            this.paivitaPisteet();
+        }
+    }
+    // ########## a iv-kohta ##########
+    public void  setSisalto(double sisalto){
+        if (sisalto < 0 || sisalto > 30){
+            System.out.println("Sisällön pistemäärä on 0-30 pistettä. Kirjataan 0 pistettä.");
+        }
+        else {
+            this.sisalto = sisalto;
+            this.paivitaPisteet();
+        }
+    }
+
+    // Get-metodit kirjoitelman eri pisteille
+    public double getKielioppi(){  return this.kielioppi;  }
+    public double getOikeinkirjoitus(){  return this.oikeinkirjoitus;  }
+    public double getPituus(){  return this.pituus;  }
+    public double getSisalto(){  return this.sisalto;  }
+
+    /**
+     * Tämä metodi laskee yhteen kirjoitelman eri pisteet ja asettaa yhteispisteet
+     * olion muuttujaan "pisteet" käyttämällä setPisteet-metodia yläluokasta.
+     */
+    private void paivitaPisteet(){
+        double yhteensa = this.oikeinkirjoitus + this.kielioppi + this.pituus + this.sisalto;
+        this.setPisteet(yhteensa);
+    }
+}
+
+
+// ---------- Tentti.java ----------
+public class Tentti {
+    private double pisteet;
+
+    public void setPisteet(double p){
+        this.pisteet = p;
+    }
+
+    public double getPisteet(){
+        return this.pisteet;
+    }
+
+    public int getArvosana(){
+        int arvosana;
+
+        if (this.pisteet >= 90) {
+            arvosana = 5;
+        }
+        else if (this.pisteet >= 80) {
+            arvosana = 4;
+        }
+        else if (this.pisteet >= 70) {
+            arvosana = 3;
+        }
+        else if (this.pisteet >= 60) {
+            arvosana = 2;
+        }
+        else if (this.pisteet >= 50) {
+            arvosana = 1;
+        }
+        else {
+            arvosana = 0;
+        }
+        return arvosana;
+    }
+}
+
+// ---------- Main.java ----------
+import java.util.Scanner;
+
+// ########## b-kohta ##########
+public class Main {
+        public static void main(String [] args) {
+                Kirjoitelma kirj1 = new Kirjoitelma();
+                Scanner skanneri = new Scanner(System.in);
+
+                System.out.println("Anna pisteet kirjoitelman kieliopista: ");
+                kirj1.setKielioppi(skanneri.nextDouble());
+                System.out.println("Anna pisteet kirjoitelman oikeinkirjoituksesta: ");
+                kirj1.setOikeinkirjoitus(skanneri.nextDouble());
+                System.out.println("Anna pisteet kirjoitelman pituudesta: ");
+                kirj1.setPituus(skanneri.nextDouble());
+                System.out.println("Anna pisteet kirjoitelman sisällöstä: ");
+                kirj1.setSisalto(skanneri.nextDouble());
+
+                System.out.println("\nKirjoitelman pisteet olivat:" +
+                        "\nKielioppi:\t\t" + kirj1.getKielioppi() +
+                        "\nOikeinkirjoitus:" + kirj1.getOikeinkirjoitus() +
+                        "\nPituus:\t\t\t" + kirj1.getPituus() +
+                        "\nSisältö:\t\t" + kirj1.getSisalto() +
+                        "\n\nYhteensä:\t\t" + kirj1.getPisteet()
+                );
+
+                // Odottaja jättää ohjelman pyörimään, kunnes käyttäjä painaa enteriä
+                System.out.printf("\n(Paina Enter) " + skanneri.nextLine()); // Syödään edellisen valinnan lopusta rivinvaihto pois, jotta ao. odottaja toimii.
+                skanneri.nextLine();
+        }
+}
+
+
+
+
+
+######################################
+TEHTÄVÄ 4:
+######################################
+
+// ########## SaaAsema.java ##########
+
+// ########## Main.java ##########
+
+
+######################################
+TEHTÄVÄ 5:
+######################################
+
+// ########## Asiakas.java ##########
+
+// ########## Main.java ##########
+
+######################################
+TEHTÄVÄ 6:
+######################################
+
+// ########## PankkitilitTaulukossa.java ##########
+
+// ########## Pankkitili.java ##########
+
+
+######################################
+TEHTÄVÄ 7:
+######################################
+
+// ########## Main.java ##########
+
+
+// ########## Pankkitili.java ##########
+
+// ########## LuoMallitilit.java ##########

@@ -20,7 +20,8 @@ public class Main {
                         "\nOikeinkirjoitus:" + kirj1.getOikeinkirjoitus() +
                         "\nPituus:\t\t\t" + kirj1.getPituus() +
                         "\nSisältö:\t\t" + kirj1.getSisalto() +
-                        "\n\nYhteensä:\t\t" + kirj1.getPisteet()
+                        "\n\nYhteensä:\t\t" + kirj1.getPisteet() +
+                        "\nArvosana:\t\t" + kirj1.getArvosana()
                 );
 
                 // Odottaja jättää ohjelman pyörimään, kunnes käyttäjä painaa enteriä

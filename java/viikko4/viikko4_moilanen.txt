@@ -262,35 +262,393 @@ public class Main {
 TEHTÄVÄ 4:
 ######################################
 
-// ########## SaaAsema.java ##########
+// ---------- Erinomainen.java ----------
+    // ########## a-kohta ##########
+public interface Erinomainen {
+    public boolean onkoErinomainen();
+}
 
-// ########## Main.java ##########
+
+// ---------- Tentti.java ----------
+    // ########## b-kohta ##########
+public class Tentti implements Erinomainen {
+    private double pisteet;
+
+    public void setPisteet(double p){
+        this.pisteet = p;
+    }
+
+    public double getPisteet(){
+        return this.pisteet;
+    }
+
+    public int getArvosana(){
+        int arvosana;
+
+        if (this.pisteet >= 90) {  arvosana = 5;  }
+        else if (this.pisteet >= 80) {  arvosana = 4;  }
+        else if (this.pisteet >= 70) {  arvosana = 3;  }
+        else if (this.pisteet >= 60) {  arvosana = 2;  }
+        else if (this.pisteet >= 50) {  arvosana = 1;  }
+        else {  arvosana = 0;  }
+        return arvosana;
+    }
+
+    public boolean onkoErinomainen(){
+        boolean palautus = false;
+        if (this.getArvosana() == 5){  palautus = true;  }
+        return palautus;
+    }
+}
+
+// ---------- Main.java ----------
+        // ########## c-kohta ##########
+public class Main {
+        public static void main(String [] args) {
+                Tentti olio1 = new Tentti();
+                olio1.setPisteet(89);
+                System.out.println("Tentin pisteet ovat " + olio1.getPisteet() +
+                        " ja arvosana " + olio1.getArvosana() + ".\n" +
+                        "Onko arvosana \"Erinomainen\"? " + olio1.onkoErinomainen());
+                olio1.setPisteet(90);
+                System.out.println("Tentin pisteet ovat " + olio1.getPisteet() +
+                        " ja arvosana " + olio1.getArvosana() + ".\n" +
+                        "Onko arvosana \"Erinomainen\"? " + olio1.onkoErinomainen());
+        }
+}
+
+
+
 
 
 ######################################
 TEHTÄVÄ 5:
 ######################################
 
-// ########## Asiakas.java ##########
+// ---------- Ympyra.java ----------
+    // ########## a-kohta ##########
+import java.io.Serializable;
+import java.util.Scanner;
 
-// ########## Main.java ##########
+public class Ympyra implements Serializable {
+    private double sade;
+    public Ympyra(double r) {
+        sade = r;
+    }
+    public double getAla() {
+        return Math.PI * sade * sade;
+    }
+    public double getSade() {
+        return sade;
+    }
+    public String toString() {
+        return "Ympyrän säde on " + sade + " ja pinta-ala on " + getAla();
+    }
+    public boolean equals(Ympyra y) {
+        if (this.sade == y.getSade())
+            return true;
+        else
+            return false;
+    }
+    public boolean suurempiKuin(Ympyra y) {
+        if (this.getAla() > y.getAla())
+            return true;
+        else
+            return false;
+    }
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("anna ekan ympyr�n� s�de: ");
+        double s1 = input.nextDouble();
+        System.out.println("anna tokan ympyr�n� s�de: ");
+        double s2 = input.nextDouble();
+        Ympyra y1 = new Ympyra(s1);
+        Ympyra y2 = new Ympyra(s2);
+        System.out.println(y1);
+        System.out.println(y2);
+        if (y1.equals(y2))
+            System.out.println("Ympyr�t samat");
+        else
+            System.out.println("Ympyr�t ei ole samat");
+        if (y1.suurempiKuin(y2))
+            System.out.println("Eka suurempi");
+        else
+            System.out.println("Eka ei ole suurempi");
+    }
+}
+
+
+// ---------- Main.java ----------
+import java.io.*;
+
+public class Main {
+        public static void main(String [] args) throws IOException {
+                // ########## b-kohta ##########
+                // Luodaan taulukko ja sijoitetaan sinne ympyra-oliot.
+                Ympyra[] taulukko = new Ympyra[10];
+                for (int i=0; i<taulukko.length; i++){
+                        taulukko[i] = new Ympyra(i+1); // Pakko antaa jotain, joten annetaan ympyröiden säteeksi indeksi+1.
+                }
+
+                // Luodaan oliot kirjoitusta varten ja kirjoitetaan tiedostoon Ympyra-oliot.
+                String tiedostoPolku = "Ympyra.dat";
+                ObjectOutputStream olionMuuttajaOlio = null;
+                try {
+                        FileOutputStream tiedostoonVirta = new FileOutputStream(tiedostoPolku);
+                        olionMuuttajaOlio = new ObjectOutputStream(tiedostoonVirta);
+                        for (int i = 0; i < taulukko.length; i++){
+                                olionMuuttajaOlio.writeObject(taulukko[i]);
+                                System.out.println("Tällainen ympyrä lisättiin tiedostoon: " + taulukko[i]);
+                        }
+                } catch (Exception exception) {
+                        exception.printStackTrace();
+                } finally {
+                        try {   // Suljetaan kirjoitusolio, jos se on olemassa.
+                                if (olionMuuttajaOlio != null) {
+                                        olionMuuttajaOlio.close();
+                                }
+                        } catch (IOException ex) {
+                                ex.printStackTrace();
+                        }
+                }
+
+
+                // ########## c-kohta ##########
+                // Luodaan uusi taulukko luettaville olioille.
+                Ympyra[] uusiTaulukko = new Ympyra[10];
+
+                // Tarkistetaan, onko tiedostoa olemassa ja pysäytetään koodin ajo, jos sitä ei ole.
+                File tarkistusOlio = new File(tiedostoPolku);
+                if (!tarkistusOlio.exists()){  System.exit(1);  }
+
+                // Luodaan oliot lukemista varten ja luetaan tiedostosta Ympyra-oliot.
+                ObjectInputStream olioksiMuuttajaOlio = null;
+                try {
+                        FileInputStream tiedostostaVirta = new FileInputStream(tiedostoPolku);
+                        olioksiMuuttajaOlio = new ObjectInputStream(tiedostostaVirta);
+                        for (int i = 0; i < uusiTaulukko.length; i++) {
+                                uusiTaulukko[i] = (Ympyra) olioksiMuuttajaOlio.readObject();
+                        }
+                } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                } catch (IOException ex) {
+                        ex.printStackTrace();
+                } finally {
+                        try {
+                                if (olioksiMuuttajaOlio != null) {
+                                        olioksiMuuttajaOlio.close();
+                                }
+                        } catch (IOException ex) {
+                                ex.printStackTrace();
+                        }
+                }
+
+                // Tulostetaan luettu taulukko näkyviin.
+                for (Ympyra ympyraOlio : uusiTaulukko) {
+                        System.out.println("Tällainen ympyrä luettiin tiedostosta: " + ympyraOlio);
+                }
+        }
+}
+
+
+
+
 
 ######################################
 TEHTÄVÄ 6:
 ######################################
 
-// ########## PankkitilitTaulukossa.java ##########
+// ---------- Pankki.java ----------
+import java.io.*;
+import java.util.Scanner;
+public class Pankki {
+    public static Scanner input = new Scanner(System.in);
+    public static void tulostaValikko() {
+        System.out.println("Mitä haluaisit tehdä: ");
+        System.out.println("1. Tilin valinta (tilinumero väliltä 1-10)");
+        System.out.println("2. Saldon tarkistus.");
+        System.out.println("3. Rahan nosto tililtä.");
+        System.out.println("4. Rahan tallennus tilille. ");
+        System.out.println("5. Poistuminen ohjelmasta.");
 
-// ########## Pankkitili.java ##########
+    }
+    public static int lueValinta() {
+        int valinta = -1;
+        valinta = Integer.parseInt(input.nextLine());
+        while ((valinta < 1) || (valinta > 5)) {
+            System.out.println("Virheellinen valinta. Anna luku väliltä 1-5. ");
+            valinta = Integer.parseInt(input.nextLine());
+        }
+        return valinta;
+    }
+
+    public static void main(String[] args) {
+        // alustetaan muutama tili
+        Tili [] tilit = new Tili[10];
+
+        // Tarkistetaan, onko tiedostoa olemassa. (b-kohta)
+        String tiedostoPolku = "tilit.dat";
+        File tiedostonTarkistaja = new File(tiedostoPolku);
+        // ########## a-kohta ##########
+        if (tiedostonTarkistaja.exists()){
+                // Yritetään lukea Tili-oliot tiedostosta
+                ObjectInputStream virrastaOlioksi;
+                try {
+                    FileInputStream tiedostostaVirta = new FileInputStream(tiedostoPolku);
+                    virrastaOlioksi = new ObjectInputStream(tiedostostaVirta);
+                    for (int i = 0; i < tilit.length; i++) {
+                        tilit[i] = (Tili) virrastaOlioksi.readObject();
+                    }
+                    virrastaOlioksi.close(); // Suljetaan tiedosto
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+        }
+        // ########## b-kohta ##########
+        // Jos tiedostoa ei ole, täytetään tili-taulukko.
+        else {
+            for (int i = 0; i < 10; i++) {
+                tilit[i] = new Tili( i+1, 100);
+            }
+        }
+
+        int valinta = 0;
+        double summa;
+        int tili = 0; // oletustili 1
+        while (valinta != 5) {
+            tulostaValikko();
+            valinta = lueValinta();
+
+            if ((valinta > 0) && (valinta < 5)) {
+                System.out.println("Käsitellään tiliä " + (tili+1));
+                if (valinta == 1) {
+                    System.out.println(("Mitä tiliä käsitellään?"));
+                    tili = Integer.parseInt(input.nextLine())-1;
+                    while ((tili<1) || (tili > 10)) {
+                        System.out.println("Tiliä ei ole olemassa.");
+                        System.out.println("Anna tilinumero 1-10: ");
+                        System.out.println(("Mitä tiliä käsitellään?"));
+                        tili = Integer.parseInt(input.nextLine());
+                    }
+                }
+                if (valinta == 2) {
+                    System.out.println("Tilin saldo on: " + tilit[tili].getSaldo());
+                }
+                if (valinta == 3) {
+                    System.out.println("Mikä summa nostetaan?");
+                    summa = Double.parseDouble(input.nextLine());
+                    tilit[tili].nosta(summa);
+                }
+                if (valinta == 4) {
+                    System.out.println("Paljonko talletetaan: ");
+                    summa = Double.parseDouble(input.nextLine());
+                    tilit[tili].talleta(summa);
+                }
+            }
+        }
+
+        System.out.println("Kiitos kun käytit tiliohjelmaa. ");
+
+        // ########## c-kohta ##########
+        ObjectOutputStream oliostaVirraksi;
+        try {
+            FileOutputStream virrastaTiedostoon = new FileOutputStream(tiedostoPolku);
+            oliostaVirraksi = new ObjectOutputStream(virrastaTiedostoon);
+            for (Tili tiliOlio : tilit) {
+                oliostaVirraksi.writeObject(tiliOlio);
+            }
+            oliostaVirraksi.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
 
-######################################
-TEHTÄVÄ 7:
-######################################
+// ---------- Tili.java ----------
+import java.io.Serializable;
+import java.util.Date;
+public class Tili implements Serializable { // Piti lisätä "implements Serializable".
+    private int id;
+    private double saldo;
+    private static double vuosiKorko = 0;
+    private Date luontiPaiva;
 
-// ########## Main.java ##########
+    public Tili() {
+        this.id = 0;
+        this.saldo = 0;
+        this.luontiPaiva = new Date();
+    }
 
+    public Tili(int id, double saldo) {
+        this.id = id;
+        this.saldo = saldo;
+        this.luontiPaiva = new Date();
+    }
 
-// ########## Pankkitili.java ##########
+    public int getId() {
+        return id;
+    }
 
-// ########## LuoMallitilit.java ##########
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public static double getVuosiKorko() {
+        return vuosiKorko;
+    }
+
+    public static void setVuosiKorko(double vuosiKorko) {
+        Tili.vuosiKorko = vuosiKorko;
+    }
+
+    public Date getLuontiPaiva() {
+        return luontiPaiva;
+    }
+    public double getKuukausiKorkoProsentti() {
+        return getVuosiKorko() / 12;
+    }
+    public double getKuukausiKorko() {
+        return saldo * getKuukausiKorkoProsentti()/100;
+    }
+    public void nosta(double summa) {
+        if (summa <= saldo) {
+            saldo = saldo - summa;
+        }
+        else {
+            System.out.println("nostettiin " + saldo + "euroa. Tili tyhjä.");
+            saldo = 0;
+        }
+    }
+    public void talleta(double summa) {
+        if (summa > 0) {
+            saldo += summa;
+        }
+        else {
+            System.out.println("ei voida tallettaa negatiivista summaa. ");
+        }
+    }
+    public static void main(String[] args) {
+        Tili tili1 = new Tili(1122, 20000);
+        Tili.setVuosiKorko(4.5);
+        tili1.nosta(2500);
+        tili1.talleta(3000);
+        System.out.println("Tilin " + tili1.getId() + " saldo on " + tili1.getSaldo()
+                + ", tilin kuukausikorko on " + tili1.getKuukausiKorko()
+                + ". Tili on luotu " + tili1.getLuontiPaiva());
+
+    }
+}

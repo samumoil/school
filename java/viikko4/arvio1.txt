@@ -1,0 +1,6 @@
+Tehtävä 1: 2,5p - Koodi toimii lähes oikein. E-kohdassa pieni väärin käsitys tehtävänannon suhteen, kun olisi pitänyt kertoa yhteen annetut parametrit.
+Tehtävä 2: 2,0p - Koodi toimii oikein ja siinä on vaadittavat asiat.
+Tehtävä 3: 3,0p - Koodi toimii oikein ja siinä on vaadittavat asiat. Pieni moka oli jäänyt, kun Tentti-luokkaan oli jäänyt "Implements Erinomainen". Ei kuitenkaan pistevähennystä tästä.
+Tehtävä 4: 3,0p - Koodi toimii oikein ja siinä on vaadittavat asiat.
+Tehtävä 5: 3,0p - Koodi toimii oikein ja siinä on vaadittavat asiat.
+Tehtävä 6: 2,5p - Koodi toimii oikein, kunnes pitäisi tallettaa tilitiedot tiedostoon. Koodissa sitä on kyllä yritetty, mutta jotain on pielessä. Vähennetään puolikas piste.

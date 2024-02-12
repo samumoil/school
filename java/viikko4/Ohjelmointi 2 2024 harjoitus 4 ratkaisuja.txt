@@ -1,0 +1,683 @@
+Ohjelmointi 2 2024 harjoitus 4 ratkaisuja
+ja ohjeet vertaisarviointiin
+
+==========================================
+Tehtävä 1
+-----------------------------------------
+
+abstract public class C {
+    private int a;
+    int b;
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
+    abstract public double laske(int x, int y);
+}
+
+----------------------------------------------
+public class D extends C {
+    private double d1;
+    protected double d2;
+
+    public double getD1() {
+        return d1;
+    }
+
+    public void setD1(double d1) {
+        this.d1 = d1;
+    }
+
+    public double getD2() {
+        return d2;
+    }
+
+    public void setD2(double d2) {
+        this.d2 = d2;
+    }
+
+    @java.lang.Override
+    public double laske(int a, int b) {
+        return a*b;
+    }
+
+    public static void main(String[] args) {
+        D olioD = new D();
+        olioD.setD1(2.2);
+        olioD.setD2(3.3);
+        olioD.setA(2);
+        olioD.setB(5);
+        double tulos = olioD.laske(olioD.getA(), olioD.getB());
+        System.out.println("Olio on: " + olioD.getD1() + " " + olioD.getD2());
+        System.out.println("tulos arvoilla "+ olioD.getA() + " ja " + olioD.getB() +
+                " on " + tulos);
+    }
+}
+---------------------------------------------------------------
+Ohje vertaisarviointiin: 
+
+On kirjoitettu luokka D: 
+a) luokka on luokan C aliluokka eli extends C
+b) luokassa kenttä d1 jossa määreenä private 
+c) luokassa kenttä d2 jossa määreenä protected tai määre puuttuu
+d) luokassa metodit setD1, setD2, getD1 ja getD2 joissa määreenä public
+e) luokassa metodi laske, joka korvaa yliluokan laske metodin ja 
+palauttaa pyydetyn tuloksen
+f) pääohjelma, jossa
+	i) luodaan olio, jonka tyyppinä on C tai D, olio luodaan
+	luokan D alustajan avulla
+	ii) luokan C tai luokan D set tai get metodeja käytetään
+	iii) metodia laske käytetään
+Pisteytys: 
+Kustakin kohdasta a), b) ja c) saa yhteensä 1 pisteen jos ne oikein. Kohdista d) ja e) saa 0.5 pistettä. Kohdasta f) saa 1 pisteen jos
+kaikki kohdat tehty ja 0.5 pistettä jos kaksi kohtaa tehty oikein.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+
+============================================================
+Tehtävä 2
+------------------------------------------------------------
+public interface Niminen {
+    public void setNimi(String n);
+    public String getNimi();
+}
+
+-------------------------------------------------------------
+public class Henkilo implements Niminen {
+    private String nimi;
+    @java.lang.Override
+    public void setNimi(String n) {
+        this.nimi = n;
+
+    }
+
+    @java.lang.Override
+    public String getNimi() {
+        return this.nimi;
+    }
+
+    public static void main(String[] args) {
+        Henkilo h = new Henkilo();
+        h.setNimi("Helka");
+        System.out.println(h.getNimi());
+    }
+}
+---------------------------------------------
+Ohje vertaisarviointiin: 
+
+a) on kirjotettu interface Niminen, jossa annetut metodien otsikot
+b) on kirjoitettu luokka Henkilo, joka toteuttaa eli implements Niminen rajanpinnan
+c) luokassa Henkilo on metodit setNimi ja getNimi
+d) on tehty pääohjelma, jossa luodaan luokan Henkilo olio ja sille
+käytetään metodeja setnimi ja getNimi
+Pisteytys: 
+Kustakin kohdasta a), b), c) ja d) saa 0.5 pistettä.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+================================================================
+Tehtävä 3
+-----------------------------------------------------------------
+public class Tentti {
+    private double pisteet;
+
+    public void setPisteet(double p){
+        this.pisteet = p;
+    }
+
+    public double getPisteet(){
+        return this.pisteet;
+    }
+
+    public int getArvosana(){
+        int arvosana;
+
+        if (this.pisteet >= 90) {
+            arvosana = 5;
+        }
+        else if (this.pisteet >= 80) {
+            arvosana = 4;
+        }
+        else if (this.pisteet >= 70) {
+            arvosana = 3;
+        }
+        else if (this.pisteet >= 60) {
+            arvosana = 2;
+        }
+        else if (this.pisteet >= 50) {
+            arvosana = 1;
+        }
+        else {
+            arvosana = 0;
+        }
+        return arvosana;
+    }
+
+}
+-------------------------------------------------------
+public class Kirjoitelma extends Tentti{
+    int kielioppi;
+    int oikeinkirjoitus;
+    int pituus;
+    int sisalto;
+
+    public Kirjoitelma() {
+    }
+
+    public Kirjoitelma(int kielioppi, int oikeinkirjoitus, int pituus, int sisalto) {
+        this.kielioppi = kielioppi;
+        this.oikeinkirjoitus = oikeinkirjoitus;
+        this.pituus = pituus;
+        this.sisalto = sisalto;
+        this.setPisteet(this.kielioppi+this.oikeinkirjoitus+ this.pituus + this.sisalto);
+    }
+
+    public int getKielioppi() {
+        return kielioppi;
+    }
+
+    public void setKielioppi(int kielioppi) {
+        if (kielioppi <= 30) {
+            this.kielioppi = kielioppi;
+        }
+        else this.kielioppi = 30;
+    }
+
+    public int getOikeinkirjoitus() {
+        return oikeinkirjoitus;
+    }
+
+    public void setOikeinkirjoitus(int oikeinkirjoitus) {
+        if (this.oikeinkirjoitus <= 20)
+                this.oikeinkirjoitus = oikeinkirjoitus;
+        else
+            this.oikeinkirjoitus = 20;
+    }
+
+    public int getPituus() {
+        return pituus;
+    }
+
+    public void setPituus(int pituus) {
+        if (pituus <= 20) {
+            this.pituus = pituus;
+        }
+        else this.pituus = 20;
+    }
+
+    public int getSisalto() {
+        return sisalto;
+    }
+
+    public void setSisalto(int sisalto) {
+        if (sisalto <= 30) {
+            this.sisalto = sisalto;
+        }
+        else
+            this.sisalto = 30;
+    }
+    public void setPisteet() {
+        double pisteet = this.getKielioppi() + this.getOikeinkirjoitus() + this.getPituus() + this.getSisalto();
+        this.setPisteet(pisteet);
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Kirjoitelma{" +
+                "kielioppi=" + kielioppi +
+                ", oikeinkirjoitus=" + oikeinkirjoitus +
+                ", pituus=" + pituus +
+                ", sisalto=" + sisalto +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Kirjoitelma juttu = new Kirjoitelma();
+        juttu.setKielioppi(40);
+        juttu.setOikeinkirjoitus(10);
+        juttu.setPituus(25);
+        juttu.setSisalto(30);
+        juttu.setPisteet(juttu.getKielioppi() + juttu.getOikeinkirjoitus() +
+                juttu.getPituus() + juttu.getSisalto());
+        // tai
+        juttu.setPisteet();
+        System.out.println(juttu);
+        System.out.println("arvosana on " + juttu.getArvosana());
+
+
+
+    }
+}
+----------------------------------------------------------
+---------------------------------------------
+Ohje vertaisarviointiin: 
+
+a) on kirjotettu aliluokka Kirjoitelma luokalle Tentti joka perii
+(extends) luokan Tentti
+b) luokassa Kirjoitelma on määritelty pyydetyt kentät kielioppi, 
+oikeinkirjoitus, pituus ja sisalto.
+c) edellisen kohdan kenttien arvojen asettamista varten on joko 
+alustaja tai set- ja get-metodit.
+d) on tehty testipääohjelma, jossa luodaan olio luokasta Kirjoitelma. 
+pääohjelmassa luodaan luokasta olio, jonka pisteille asetetaan arvot
+ja pisteiden arvot tai kokonaispisteet tulostetaan näkyville.
+Pisteytys: 
+Kustakin kohdasta a) ja b) saa 0.5 pistettä. Kohdista c) ja d) saa
+1 pisteen.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+===========================================================
+Tehtävä 4
+----------------------------------------------------------
+public interface Erinomainen {
+    public boolean onkoErinomainen();
+}
+---------------------------------------------------------
+public class Tentti2 implements Erinomainen {
+    private double pisteet;
+
+    public void setPisteet(double p){
+        this.pisteet = p;
+    }
+
+    public double getPisteet(){
+        return this.pisteet;
+    }
+
+    public int getArvosana(){
+        int arvosana;
+
+        if (this.pisteet >= 90) {
+            arvosana = 5;
+        }
+        else if (this.pisteet >= 80) {
+            arvosana = 4;
+        }
+        else if (this.pisteet >= 70) {
+            arvosana = 3;
+        }
+        else if (this.pisteet >= 60) {
+            arvosana = 2;
+        }
+        else if (this.pisteet >= 50) {
+            arvosana = 1;
+        }
+        else {
+            arvosana = 0;
+        }
+        return arvosana;
+    }
+    public boolean onkoErinomainen() {
+        return (this.getArvosana() == 5);
+
+}
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Tentti2{" +
+                "pisteet=" + pisteet +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Tentti2 tentti = new Tentti2();
+        tentti.setPisteet(49);
+        System.out.println(tentti);
+        System.out.println("onko erinomainen " + tentti.onkoErinomainen());
+        Tentti2 toinen = new Tentti2();
+        toinen.setPisteet(55);
+        System.out.println(toinen);
+        System.out.println("onko erinomainen " + toinen.onkoErinomainen());
+
+
+    }
+}
+---------------------------------------------
+Ohje vertaisarviointiin: 
+
+a) on kirjoitettu rajapinta (interface) Erinomainen, jossa on
+metodi onkoErinomainen, joka palauttaa totuusarvon.
+b) on muokattu luokkaa Tentti niin että se toteuttaa (implements) 
+rajapinnan Erinomainen ja luokkaan on lisätty metodi onkoErinomainen,
+joka palauttaa totuusarvon true, kentällä arvosana on arvo 5.
+c) on tehty testipääohjelma, joka luo olion luokasta Tentti. 
+Oliolle asetetaan pisteet ja tulostetaan näkyville metodin 
+onkoErinomainen palauttaman arvon. 
+Pisteytys: 
+Kustakin kohdasta a) b) ja c) saa 1 pisteen.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+==========================================================================
+Tehtävä 5
+-------------------------------------------------------------------------
+import java.util.Scanner;
+import java.io.Serializable; // tähän lisäys
+
+public class Ympyra implements Serializable{ // tähän lisäys, ei muuta
+    private double sade;
+    public Ympyra(double r) {
+        sade = r;
+    }
+    public double getAla() {
+        return Math.PI * sade * sade;
+    }
+    public double getSade() {
+        return sade;
+    }
+    public String toString() {
+        return "Ympyrän säde on " + sade + " ja pinta-ala on " + getAla();
+    }
+    public boolean equals(Ympyra y) {
+        if (this.sade == y.getSade())
+            return true;
+        else
+            return false;
+    }
+    public boolean suurempiKuin(Ympyra y) {
+        if (this.getAla() > y.getAla())
+            return true;
+        else
+            return false;
+    }
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("anna ekan ympyrän säde: ");
+        double s1 = input.nextDouble();
+        System.out.println("anna tokan ympyrän säde: ");
+        double s2 = input.nextDouble();
+        Ympyra y1 = new Ympyra(s1);
+        Ympyra y2 = new Ympyra(s2);
+        System.out.println(y1);
+        System.out.println(y2);
+        if (y1.equals(y2))
+            System.out.println("Ympyrät samat");
+        else
+            System.out.println("Ympyrät ei ole samat");
+        if (y1.suurempiKuin(y2))
+            System.out.println("Eka suurempi");
+        else
+            System.out.println("Eka ei ole suurempi");
+    }
+}
+---------------------------------------------------------------------
+import java.io.*;
+public class Tehtava5 {
+    public static void main(String[] args) {
+        Ympyra[] ympyrat = new Ympyra[10];
+        for (int i = 0; i < 10; i++) {
+            ympyrat[i] = new Ympyra(i*5);
+        }
+        try {
+            FileOutputStream tiedosto = new FileOutputStream("ympyrat.dat");
+            ObjectOutputStream oliot = new ObjectOutputStream(tiedosto);
+            for (int i= 0; i < 10; i++) {
+                oliot.writeObject(ympyrat[i]);
+            }
+            tiedosto.close();
+        } catch (Exception e ) {
+            System.out.println("virhe kirjoituksessa.");
+
+        }
+        System.out.println("Kirjoitettiin tiedostoon onnistuneesti. ");
+        Ympyra [] ympyrat2 = new Ympyra[10];
+        try {
+            FileInputStream tiedosto2 = new FileInputStream("ympyrat.dat");
+            ObjectInputStream oliot2 = new ObjectInputStream(tiedosto2);
+            for (int i = 0; i < 10; i++) {
+                ympyrat2[i] = (Ympyra) oliot2.readObject();
+            }
+            tiedosto2.close();
+        } catch (Exception e) {
+            System.out.println("virhe lukemisessa");
+        }
+        System.out.println("Lukeminen onnistui.");
+        for (int i = 0; i<10; i++) {
+            System.out.println(ympyrat2[i]);
+        }
+    }
+}
+---------------------------------------------
+Ohje vertaisarviointiin: 
+
+a) on muokattu luokkaa Ympyra lisäämällä siihen rajapinnan
+Serializable toteuttaminen (implements)
+b) on tehty pääohjelma, joka joka määrittelee Javan taulukon ja 
+luo siihen 10 ympyrä-oliota. (hyväksytään myös jokin Javan
+listarakenteen käyttö).
+c) Ohjelma luo tiedoston ympyrat.dat ja kirjoittaa sinne
+10 ympyra-oliota tai kokonaisen ympyra-oliotaulukon. 
+d) ohjelma lukee ympyra-oliot tiedostosta ja tulostaa
+niiden tiedot näkyville.
+Pisteytys: 
+Kustakin kohdasta a) ja b) saa 0.5 pistettä. Kohdista c) ja d) pisteen.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+=====================================================================
+Tehtävä 6
+----------------------------------------------------------------------
+import java.io.Serializable;
+
+public class Pankkitili implements Serializable { // tähän lisäys
+    private double vuosiKorko;
+    private double saldo;
+    /**
+     * Pankkiili alkusaldolla.
+     * @param saldo
+     */
+    public Pankkitili(double saldo) {
+        this.saldo = saldo;
+    }
+    public Pankkitili(Pankkitili tili) {
+        this.saldo = tili.getSaldo();
+    }
+    /**
+     * Vuosikoron asetus
+     * @param vuosiKorko
+     */
+    public void setVuosiKorko(double vuosiKorko) {
+        this.vuosiKorko = vuosiKorko;
+    }
+
+    /**
+     * Summan talletus tilille.
+     * @param summa
+     */
+    public void talleta(double summa) {
+        if (summa > 0){
+            this.saldo += summa;
+            System.out.println("Talletettiin " + summa);
+        }
+        else
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+    }
+    /**
+     * Summan nosto tililta.
+     * @param summa
+     */
+    public void nosta(double summa) {
+        if (summa < 0)
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+        else if (summa <= this.saldo) {
+            this.saldo -= summa;
+            System.out.println("Nostettiin " + summa);
+        }
+        else {
+            System.out.println("Tililla ei ole riittavasti katetta.");
+            System.out.println("Nostettiin " + this.saldo);
+            this.saldo = 0;
+
+        }
+    }
+    /**
+     * Kuukausikoron lisays.
+     */
+    public void lisaaKorko() {
+        this.saldo += (this.saldo * this.vuosiKorko / 100.0) / 12;
+    }
+    /**
+     * Saldon tarkistus.
+     * @return
+     */
+    public double getSaldo() {
+        return saldo;
+    }
+}
+------------------------------------------------------------------------
+import java.io.*;
+import java.util.Scanner;
+
+public class Pankkiautomaatti {
+    public Pankkitili[] tilit = new Pankkitili[10];
+
+    public Pankkiautomaatti() { // tänne lisätty tiedoston käsittelyä
+        try {
+            File tiedosto = new File("tilit.dat");
+            if (tiedosto.exists()) {
+                FileInputStream tilitiedosto = new FileInputStream("tilit.dat");
+                ObjectInputStream oliot2 = new ObjectInputStream(tilitiedosto);
+                for (int i = 0; i < 10; i++) {
+                    tilit[i] = (Pankkitili) oliot2.readObject();
+                }
+                tilitiedosto.close();
+            } else
+            {
+                for (int i = 0; i < 10; i++) {
+                    this.tilit[i] = new Pankkitili(100);
+                }
+                System.out.println("Lukeminen onnistui.");
+            }
+        }catch (Exception e) {
+            System.out.println("virhe lukemisessa");
+            System.out.println(e);
+            }
+
+
+
+    }
+    public void saldo(int i) {
+        System.out.println("Tilin " + i + " saldo on " + this.tilit[i].getSaldo());
+    }
+    public void nosto(int i, double summa) {
+        this.tilit[i].nosta(summa);
+    }
+    public void pano(int i, double summa) {
+        this.tilit[i].talleta(summa);
+    }
+
+    public static void kysy_tilinumero() {
+        System.out.println("Mitä tiliä haluat käsitellä (1-10, 0 = lopetus)");
+    }
+    public void kirjoitaTiedostoon() { // lisäys
+        try {
+            FileOutputStream tilitiedosto = new FileOutputStream("tilit.dat");
+            ObjectOutputStream oliot = new ObjectOutputStream(tilitiedosto);
+            for (int i= 0; i < 10; i++) {
+                oliot.writeObject(tilit[i]);
+            }
+            tilitiedosto.close();
+            System.out.println("Kirjoitettiin tiedostoon onnistuneesti. ");
+        } catch (Exception e ) {
+            System.out.println("virhe kirjoituksessa.");
+            System.out.println(e);
+
+        }
+
+    }
+
+    public static void tulostaValikko() {
+        System.out.println("Mitä haluat tehdä: ");
+        System.out.println("1. saldon tarkistus");
+        System.out.println("2. nosto");
+        System.out.println("3. pano");
+        System.out.println("4. poistu");
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String jatkatko;
+        int valinta;
+        int tili;
+        double summa;
+        boolean jatka;
+        // alustetaan tilit
+        Pankkiautomaatti pankki = new Pankkiautomaatti();
+        // testataan taulukon toiminta a) kohta
+        // panoja
+      // poistettu kommentoitu koodi
+
+        // 
+        do {
+            kysy_tilinumero();
+            tili = input.nextInt();
+            if (tili > 0 && tili < 10) {
+                jatka = true;
+
+                do {
+                    tulostaValikko();
+                    valinta = input.nextInt();
+                    switch (valinta) {
+                        case 1: {
+                            pankki.saldo(tili);
+                            break;
+                        }
+                        case 2: {
+                            System.out.println("Paljonko haluat nostaa?");
+                            summa = input.nextDouble();
+                            pankki.nosto(tili, summa);
+                            break;
+                        }
+
+                        case 3: {
+                            System.out.println("Paljonko talletat?");
+                            summa = input.nextDouble();
+                            pankki.pano(tili, summa);
+                            break;
+                        }
+
+                        case 4:
+                            jatka = false;
+                    }
+                } while (jatka);
+            }
+
+        } while (tili > 0 && tili < 10);
+        pankki.kirjoitaTiedostoon(); // lisäys
+
+    }
+
+
+}
+
+---------------------------------------------
+Ohje vertaisarviointiin: 
+
+a) luokkaan Pankkitili (tai Tili) on lisätty rajanpinnan 
+Serializable toteuttaminen (implements)
+b) luokkaan Pankkiautomaatti tai pääohjelmaan on lisätty
+tiedoston tilit.dat olemassaolon tutkiminen jollain tavalla 
+(esim. file exists tai poikkeuksen käsittely FilenotFound)
+c) jos tiedosto on olemassa, niin luokkaan Pankkiautomaatti tai pääohjelmaan on lisätty pankkitilien tietojen lukeminen
+tiedostosta tilit.dat (tämä voidaan lisätä esim. luokan 
+alustajaan tai erilliseen metodiin tai pääohjelman koodiin)
+10 ympyra-oliota tai kokonaisen ympyra-oliotaulukon. 
+d) jos tiedostoa tilit.dat ei löydy, niin tilien saldot
+alustetaan arvolla 100.
+e) luokkaan Pankkiautomaatti tai pääohjelmaan on lisätty
+ennen ohjelman suorituksen lopettamista pankkitilien
+tietojen kirjoittaminen tiedostoon tilit.dat
+Pisteytys: 
+Kustakin kohdasta a), b) ja d) saa kustakin 0.33 pistettä. 
+Kohdista c) ja e) saa kummastakin 1 pisteen.
+Jos edellistä kohtaa ei voi soveltaa, mutta jos ohjelmaa yritetty ratkaista 0.5 pistettä.
+================================================================
+=========================================================
+Kirjoita elearniin kunkin tehtävän pisteet ja perustelut antamillesi pisteille.
+Laske pisteet yhteen ja pyöritä ylöspäin. Valitse pistemäärä valinnasta. 
+Kirjoita positiivinen kannustava kommentti kokonaisuudesta.
+=========================================================

@@ -70,18 +70,149 @@ public class tehtava2 extends Application {
 TEHTÄVÄ 3:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava3.java ----------
+package test.myjavafx;
 
-// ---------- Main.java ----------
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
+import javax.security.auth.login.CredentialException;
+
+public class tehtava3 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage lava) {
+
+        /*
+        Tässä ratkaisussa olioita ei ole kiinnitetty X/Y-koordinaatistoon.
+        Sen sijaan tässä luodaan osittain sisäkkäisiä olioita, jotka sijoitetaan
+        ikkunan keskelle VBox ja StackPane -olioiden avulla. Kaikkien olioiden
+        sekä ikkunan koko riippuu muuttujasta "koko", jolloin kuvaa voi helposti
+        skaalata.
+         */
+
+        int koko = 30;
+
+        Circle ympyraPun = new Circle(koko);
+        ympyraPun.setStroke(Color.BLACK);
+        ympyraPun.setFill(Color.RED);
+
+        Circle ympyraKelt = new Circle(koko);
+        ympyraKelt.setStroke(Color.BLACK);
+        ympyraKelt.setFill(Color.YELLOW);
+
+        Circle ympyraVihr = new Circle(koko);
+        ympyraVihr.setStroke(Color.BLACK);
+        ympyraVihr.setFill(Color.GREEN);
+
+        // Sijoitetaan pallot päällekkäin ja keskelle ruutua.
+        VBox vertikaaliPallot = new VBox(koko/2);
+        vertikaaliPallot.setAlignment(Pos.CENTER); // Ilman tätä pallot sijoittuvat vasempaan yläkulmaan.
+        vertikaaliPallot.getChildren().addAll(ympyraPun, ympyraKelt, ympyraVihr);
+
+        // Luodaan laatikko, joka tulee valojen ympärille.
+        Rectangle laatikko = new Rectangle(
+                koko*3,
+                koko*8,
+                Color.WHITE);
+        laatikko.setStroke(Color.BLACK);
+
+        // Luodaan laatikon ja pallojen muodostama "yläosa".
+        Pane laatikkoJaPallot = new StackPane();
+        laatikkoJaPallot.getChildren().addAll(laatikko, vertikaaliPallot);
+
+        // Valotolpan jalka. Tämän koko suhteessa yläosaan on saatu kokeilemalla.
+        Rectangle jalka = new Rectangle(
+                laatikko.getWidth()/3,
+                laatikko.getHeight()/5*4,
+                Color.BROWN);
+        jalka.setStroke(Color.BLACK);
+
+        // Sijoitetaan valotolpan yläosa ja jalka päällekkäin.
+        VBox valotolppa = new VBox(laatikkoJaPallot, jalka);
+        valotolppa.setAlignment(Pos.CENTER);
+
+        Scene kehys = new Scene(valotolppa, koko*12,koko*20);
+        lava.setScene(kehys);
+        lava.setTitle("Tehtävä 3");
+        lava.show();
+    }
+}
 
 
 ######################################
 TEHTÄVÄ 4:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava4.java ----------
+package test.myjavafx;
 
-// ---------- Main.java ----------
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.stage.Stage;
+
+public class tehtava4 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage lava) {
+
+        Ellipse ellipsi = new Ellipse(160,350,160,60);
+        ellipsi.setFill(Color.YELLOW);
+        ellipsi.setStroke(Color.BLACK);
+
+        Line pystypuu = new Line(90,10,90,300);
+        Line poikkipuu = new Line(90,10,200,10);
+        Line naru = new Line(180,10,180,40);
+        naru.setStroke(Color.RED);
+
+        Circle paa = new Circle(180,70,30, Color.RED);
+        paa.setStroke(Color.BLACK);
+        Line vartalo = new Line(180,100,180,200);
+        vartalo.setStroke(Color.RED);
+        Line kasiOikea = new Line(180,120,160,170);
+        kasiOikea.setStroke(Color.RED);
+        Line kasiVasen = new Line(180,120,200,170);
+        kasiVasen.setStroke(Color.RED);
+        Line jalkaVasen = new Line(180,200,160,240);
+        jalkaVasen.setStroke(Color.RED);
+        Line jalkaOikea = new Line(180,200, 200, 240);
+        jalkaOikea.setStroke(Color.RED);
+
+        Pane paneeli = new Pane();
+        paneeli.getChildren().addAll(
+                pystypuu, ellipsi, poikkipuu, naru, paa, vartalo,
+                kasiOikea, kasiVasen, jalkaOikea, jalkaVasen);
+
+        Scene kehys = new Scene(paneeli);
+        lava.setScene(kehys);
+        lava.setTitle("Tehtävä 4");
+        lava.show();
+    }
+}
 
 
 
@@ -89,9 +220,57 @@ TEHTÄVÄ 4:
 TEHTÄVÄ 5:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava5.java ----------
+package test.myjavafx;
 
-// ---------- Main.java ----------
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+public class tehtava5 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage lava) {
+        // Jostain syystä tähän piti lisätä "file:", jotta se toimi minulla.
+        // Se pitää mahdollisesti poistaa jonkun muun järjestelmässä?
+        Image suomi = new Image("file:Suomi.jpg", 150, 100, false, true);
+        ImageView suomiNaytto = new ImageView(suomi);
+        Image ruotsi = new Image("file:Sverige.jpg", 150, 100, false, true);
+        ImageView ruotsiNaytto = new ImageView(ruotsi);
+        Image norja = new Image("file:Norge.jpg", 150, 100, false, true);
+        ImageView norjaNaytto = new ImageView(norja);
+        Image italia = new Image("file:italy.png", 150, 100, false, true);
+        ImageView italiaNaytto = new ImageView(italia);
+        Image ukraina = new Image("file:ukraine.png", 150, 100, false, true);
+        ImageView ukrainaNaytto = new ImageView(ukraina);
+        Image britannia = new Image("file:union-jack.jpg", 150, 100, false, true);
+        ImageView britanniaNaytto = new ImageView(britannia);
+
+        GridPane paneeli = new GridPane();
+        paneeli.setGridLinesVisible(true);
+        paneeli.setHgap(4);
+        paneeli.setVgap(4);
+        paneeli.add(suomiNaytto, 0, 0);
+        paneeli.add(ruotsiNaytto, 1, 0);
+        paneeli.add(norjaNaytto, 2, 0);
+        paneeli.add(italiaNaytto, 0, 1);
+        paneeli.add(ukrainaNaytto, 1, 1);
+        paneeli.add(britanniaNaytto, 2, 1);
+
+        Scene kehys = new Scene(paneeli, 600, 300);
+        lava.setScene(kehys);
+        lava.setTitle("Tehtävä 5");
+        lava.show();
+    }
+}
 
 
 ######################################

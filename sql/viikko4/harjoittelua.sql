@@ -50,7 +50,7 @@ create table asiakas3(
     kolumni1 nvarchar(20),
     kolumni2 nvarchar(20));
     
-alter table asiakas1
+alter table asiakas1 
 add column id2 char(10);
 
 alter table asiakas1

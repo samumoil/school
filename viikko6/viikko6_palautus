@@ -1,0 +1,327 @@
+######################################
+TEHTÄVÄ 1:
+######################################
+
+// ---------- tehtava1.java ----------
+package test.viikko6;
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
+public class tehtava1 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage ikkuna) {
+
+        // Luodaan laatikko ja käännetään se
+        Rectangle laatikko = new Rectangle();
+        laatikko.setHeight(110);
+        laatikko.setWidth(60);
+        laatikko.setFill(Color.WHITE);
+        laatikko.setStroke(Color.BLACK);
+        laatikko.setRotate(-45);
+
+        // Luodaan nappi ja asetetaan sille toiminto
+        Button nappi = new Button("Käännä");
+        nappi.setOnAction(e -> laatikko.setRotate(laatikko.getRotate() + 45));
+
+        // Luodaan paneeli ja asetetaan sisältö siihen
+        BorderPane panneeli = new BorderPane();
+        panneeli.setCenter(laatikko);
+        panneeli.setLeft(nappi);
+        BorderPane.setAlignment(nappi, Pos.CENTER_LEFT); // Tuodaan nappi keskelle ylä-ala-suunnssa
+
+        // Asetetaan paneeli uuteen ikkunan sisältöön ja asetetaan ikkunan sisältö ikkunaan
+        Scene ikkunanSisalto = new Scene(panneeli,500,500);
+        ikkuna.setScene(ikkunanSisalto);
+        ikkuna.setTitle("Kiännetään");
+        ikkuna.show();
+    }
+}
+
+
+######################################
+TEHTÄVÄ 2:
+######################################
+// ---------- tehtava2.java ----------
+package test.viikko6;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderRepeat;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+
+import java.net.CacheRequest;
+
+public class tehtava2 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage ikkuna) {
+        // Annetaan ikkunan koko ensin, jotta voidaan käyttää sitä myöhemmin parissa kohdassa.
+        ikkuna.setWidth(500);
+        ikkuna.setHeight(500);
+        ikkuna.setTitle("Katso kuinka pallo liikkuu");
+
+        // Ympyrän luonti ja sijoittaminen ikkunan keskelle.
+        int ympyranHalkaisija = 100;
+        Circle ympyra = new Circle(ympyranHalkaisija, Color.WHITE);
+        ympyra.setStroke(Color.BLACK);
+        ympyra.setCenterX(ikkuna.getWidth()/2);
+        ympyra.setCenterY(ikkuna.getHeight()/2);
+        Pane ympyraPane = new Pane();
+        ympyraPane.getChildren().add(ympyra);
+
+        // Napit, niiden BorderPane sekä sijoittelu omien lokeroiden keskelle.
+        Button ylos = new Button("Ylös");
+        Button alas = new Button("Alas");
+        Button vasen = new Button("Vasen");
+        Button oikea = new Button("Oikea");
+        BorderPane nappiPaneeli = new BorderPane();
+        nappiPaneeli.setLeft(vasen);
+        nappiPaneeli.setRight(oikea);
+        nappiPaneeli.setTop(ylos);
+        nappiPaneeli.setBottom(alas);
+        BorderPane.setAlignment(vasen, Pos.CENTER);
+        BorderPane.setAlignment(oikea, Pos.CENTER);
+        BorderPane.setAlignment(ylos, Pos.CENTER);
+        BorderPane.setAlignment(alas, Pos.CENTER);
+
+        // Nappipaneeli sekä ympyräpaneeli laitetaan päällekäin.
+        StackPane keskitysPaneeli = new StackPane(ympyraPane, nappiPaneeli);
+        Scene ikkunanSisalto = new Scene(keskitysPaneeli);
+        ikkuna.setScene(ikkunanSisalto);
+        ikkuna.show();
+
+        // Toimintalogiikkka nappien painamiselle.
+        int askel = 50;
+        ylos.setOnAction(e -> {
+            if (ympyra.getCenterY() > ympyranHalkaisija + askel) // Onko ympyrän keskipisteen ja laidan välissä tarpeeksi tilaa ottaa yksi "askel"?
+                ympyra.setCenterY(ympyra.getCenterY() - askel); // Siirry yksi askel.
+            else // Jos ei ole tarpeeksi tilaa kokonaiselle askeleelle, siirry koskettamaan reunaa.
+                ympyra.setCenterY(ympyranHalkaisija);
+        });
+        vasen.setOnAction(e -> {
+            if (ympyra.getCenterX() > ympyranHalkaisija + askel )
+                ympyra.setCenterX(ympyra.getCenterX() - askel);
+            else
+                ympyra.setCenterX(ympyranHalkaisija);
+        });
+        alas.setOnAction(e -> {
+            if (ympyra.getCenterY() < ikkuna.getHeight()-ympyranHalkaisija - askel) // Hyödynnetään tietoa ikkunan koosta.
+                ympyra.setCenterY(ympyra.getCenterY() + askel);
+            else
+                ympyra.setCenterY(ikkuna.getHeight()-ympyranHalkaisija);
+        });
+        oikea.setOnAction(e -> {
+            if (ympyra.getCenterX() < ikkuna.getWidth()-ympyranHalkaisija - askel)
+                ympyra.setCenterX(ympyra.getCenterX() + askel);
+            else
+                ympyra.setCenterX(ikkuna.getWidth()-ympyranHalkaisija);
+        });
+    }
+}
+
+
+
+######################################
+TEHTÄVÄ 3:
+######################################
+
+// ---------- tehtava3.java ----------
+package test.viikko6;
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.geometry.HPos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+//import javafx.event.ActionEvent;
+//import javafx.event.EventHandler;
+
+public class tehtava3 extends Application {
+    private TextField tfSijoituksenMaara = new TextField();
+    private TextField tfVuosienMaara = new TextField();
+    private TextField tfVuosiKorko = new TextField();
+    private TextField tfTuottoOdotus = new TextField();
+    private Button btLaske = new Button("Laske");
+
+    @Override
+    public void start(Stage alkuIkkuna)
+    {  // luodaan paneeli
+        GridPane paneeli = new GridPane();
+        // asetetaan tilaa solujen välille
+        paneeli.setHgap(5);
+        paneeli.setVgap(5);
+        // lisätään solmut
+        paneeli.add(new Label("Sijoituksen määrä: "),0,0);
+        paneeli.add(tfSijoituksenMaara, 1, 0);
+        paneeli.add(new Label("Vuosien määrä "),0,1);
+        paneeli.add(tfVuosienMaara, 1, 1);
+        paneeli.add(new Label("Vuosikorko % "), 0,2);
+        paneeli.add(tfVuosiKorko, 1, 2);
+        paneeli.add(btLaske, 1, 3);
+        paneeli.add(new Label("Tuotto odotus: "), 0,4);
+        paneeli.add(tfTuottoOdotus, 1,4);
+
+        // määritellään asettelua
+        paneeli.setAlignment(Pos.CENTER);
+        tfSijoituksenMaara.setAlignment(Pos.BOTTOM_RIGHT);
+        tfVuosiKorko.setAlignment(Pos.BOTTOM_RIGHT);
+        tfVuosienMaara.setAlignment(Pos.BOTTOM_RIGHT);
+        tfTuottoOdotus.setAlignment(Pos.BOTTOM_RIGHT);
+        // asetetaan ettei voi muokata
+        tfTuottoOdotus.setEditable(false);
+
+        // käsitellään tapahtumat
+        btLaske.setOnAction(e -> laskeTuottoOdotus());
+
+
+        Scene kehys = new Scene(paneeli, 400, 250);
+        alkuIkkuna.setTitle("Ja rahaa tulee");
+        alkuIkkuna.setScene(kehys);
+        alkuIkkuna.show();
+    }
+
+    private void laskeTuottoOdotus()
+    {
+        // luetaan arvot kentistä
+        double korko = Double.parseDouble(tfVuosiKorko.getText());
+        int vuosi = Integer.parseInt(tfVuosienMaara.getText());
+        double sijoitusMaara = Double.parseDouble(tfSijoituksenMaara.getText());
+
+        // muodostetaan sijoitusolio
+        Sijoitus sijoitus1 = new Sijoitus(korko, vuosi, sijoitusMaara);
+
+        // näytetään tiedot
+        tfTuottoOdotus.setText(String.format("%.2f", sijoitus1.getTuottoOdotus()));
+    }
+
+    public static void main(String [] args)
+    {
+        Application.launch(args);
+    }
+}
+
+// ---------- Sijoitus.java ----------
+package test.viikko6;
+
+import static java.lang.Double.parseDouble;
+
+public class Sijoitus
+{
+    private double vuosiKorko;
+    private int vuosienMaara;
+    private double sijoituksenMaara;
+
+    public Sijoitus()
+    {
+        this(2.5, 1, 1000);
+    }
+
+    public Sijoitus(double vuosiKorko, int vuosienMaara, double sijoituksenMaara)
+    {
+        this.vuosiKorko = vuosiKorko;
+        this.vuosienMaara = vuosienMaara;
+        this.sijoituksenMaara = sijoituksenMaara;
+    }
+
+    public double getVuosiKorko()
+    {
+        return this.vuosiKorko;
+    }
+
+    public void setVuosiKorko(double vuosiKorko)
+    {
+        this.vuosiKorko = vuosiKorko;
+    }
+
+    public int getVuosienMaara()
+    {
+        return this.vuosienMaara;
+    }
+
+    public void setVuosienMaara(int vuosienMaara)
+    {
+        this.vuosienMaara = vuosienMaara;
+    }
+
+    public double getSijoituksenMaara()
+    {
+        return this.sijoituksenMaara;
+    }
+
+    public void setSijoituksenMaara(double sijoituksenMaara)
+    {
+        this.sijoituksenMaara = sijoituksenMaara;
+    }
+
+    public double getTuottoOdotus() {
+        return sijoituksenMaara * Math.pow((1+vuosiKorko/100), vuosienMaara);
+    }
+}
+
+######################################
+TEHTÄVÄ 4:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ----------
+
+
+
+######################################
+TEHTÄVÄ 5:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ----------
+
+
+######################################
+TEHTÄVÄ 6:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ----------
+
+
+
+######################################
+TEHTÄVÄ 7:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ----------
+

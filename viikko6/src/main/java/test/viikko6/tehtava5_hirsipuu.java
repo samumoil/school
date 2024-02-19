@@ -1,5 +1,6 @@
 package test.viikko6;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -8,7 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 
-class tehtava5_hirsipuu implements EventHandler<MouseEvent> {
+class tehtava5_hirsipuu {
     // Luodaan paneeli, hirsipuun osat sekä hahmo. Jostain syystä tässä ei voi
     // muuttaa niiden väriä.
     Pane paneeli = new Pane();
@@ -36,28 +37,26 @@ class tehtava5_hirsipuu implements EventHandler<MouseEvent> {
         jalkaOikea.setStroke(Color.RED);
     }
 
-    // Tämä metodi hoitaa tapahtumien ohjaamisen.
-    @Override
-    public void handle(MouseEvent e) {
-        if (!e.isShiftDown() && !paneeli.getChildren().contains(ellipsi))
+    public void vaarinMeni() {
+        if (!paneeli.getChildren().contains(ellipsi))
             paneeli.getChildren().add(ellipsi);
-        else if (!e.isShiftDown() && !paneeli.getChildren().contains(pystypuu))
+        else if (!paneeli.getChildren().contains(pystypuu))
             paneeli.getChildren().add(pystypuu);
-        else if (!e.isShiftDown() && !paneeli.getChildren().contains(poikkipuu))
+        else if (!paneeli.getChildren().contains(poikkipuu))
             paneeli.getChildren().add(poikkipuu);
-        else if (!e.isShiftDown() && !paneeli.getChildren().contains(naru))
+        else if (!paneeli.getChildren().contains(naru))
             paneeli.getChildren().add(naru);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru) && !paneeli.getChildren().contains(paa))
+        else if (paneeli.getChildren().contains(naru) && !paneeli.getChildren().contains(paa))
             paneeli.getChildren().add(paa);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(vartalo))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(vartalo))
             paneeli.getChildren().add(vartalo);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiVasen))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiVasen))
             paneeli.getChildren().add(kasiVasen);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiOikea))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiOikea))
             paneeli.getChildren().add(kasiOikea);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaVasen))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaVasen))
             paneeli.getChildren().add(jalkaVasen);
-        else if (e.isShiftDown() && paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaOikea))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaOikea))
             paneeli.getChildren().add(jalkaOikea);
     }
 }

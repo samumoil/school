@@ -385,9 +385,190 @@ class tehtava4_hirsipuu implements EventHandler<MouseEvent> {
 TEHTÄVÄ 5:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava5.java ----------
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-// ---------- Main.java ----------
+public class tehtava5 extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage lava) {
+
+        String arvattavaSana = "kirjaimet";
+
+        // Luodaan hirsipuu-olio apuluokasta.
+        tehtava5_hirsipuu hirsipuuOlio = new tehtava5_hirsipuu();
+        // Laitetaan tämän luokan käyttämä paneeli osoittamaan hirsipuu-olion
+        // "paneeli"-muuttujan muistiosoitteeseen. Nyt hirsipuu-oliossa tehtävät
+        // muutokset näkyvät täälläkin.
+        Pane hirsipuuPaneeli = hirsipuuOlio.paneeli;
+        //hirsipuuPaneeli.setOnMouseClicked(hirsipuuOlio);
+
+        // Luodaan olio kirjainnäytöstä. Toteutetaan samanlainen muistiosoitteeseen viittaus tässäkin.
+        tehtava5_kirjainNaytto kirjainNayttoOlio = new tehtava5_kirjainNaytto(arvattavaSana);
+        GridPane kirjainNayttoPaneeli = kirjainNayttoOlio.kirjainRivi;
+
+        VBox lopputulosNaytto = new VBox();
+        lopputulosNaytto.setAlignment(Pos.TOP_RIGHT);
+
+        StackPane yhdistettyPaneeli = new StackPane(hirsipuuPaneeli, kirjainNayttoPaneeli, lopputulosNaytto);
+        Scene kehys = new Scene(yhdistettyPaneeli);
+
+        kehys.setOnKeyTyped(e -> {
+            char arvausLower = Character.toLowerCase(e.getCharacter().charAt(0));
+            if (Character.isAlphabetic(arvausLower)) {
+                if (!kirjainNayttoOlio.tarkistaja(arvausLower)) {
+                    hirsipuuOlio.vaarinMeni();
+                }
+            }
+            if (hirsipuuOlio.getHavisitPelin()) {
+                lopputulosNaytto.getChildren().add(new Text("HÄVISIT!"));
+            }
+            if (kirjainNayttoOlio.getVoititPelin()) {
+                lopputulosNaytto.getChildren().add(new Text("Oikea sana oli: \n" + kirjainNayttoOlio.getSana().toUpperCase() + "\nVoitit pelin!"));
+            }
+        });
+
+        lava.setScene(kehys);
+        lava.setHeight(432);
+        lava.setWidth(321);
+        lava.setTitle("Tehtävä 5");
+        lava.show();
+    }
+}
+
+
+
+// ---------- tehtava5_hirsipuu.java ----------
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+
+class tehtava5_hirsipuu {
+    // Luodaan paneeli, hirsipuun osat sekä hahmo. Jostain syystä tässä ei voi
+    // muuttaa niiden väriä.
+    Pane paneeli = new Pane();
+    Ellipse ellipsi = new Ellipse(160,350,160,60);
+    Line pystypuu = new Line(90,10,90,300);
+    Line poikkipuu = new Line(90,10,200,10);
+    Line naru = new Line(180,10,180,40);
+    Circle paa = new Circle(180,70,30, Color.RED);
+    Line vartalo = new Line(180,100,180,200);
+    Line kasiVasen = new Line(180,120,160,170);
+    Line kasiOikea = new Line(180,120,200,170);
+    Line jalkaVasen = new Line(180,200,160,240);
+    Line jalkaOikea = new Line(180,200, 200, 240);
+    private boolean havisitPelin = false;
+
+    // Hyödynnetään alustajaa, joka muuttaa värit oikein.
+    public tehtava5_hirsipuu() {
+        ellipsi.setFill(Color.YELLOW);
+        ellipsi.setStroke(Color.BLACK);
+        naru.setStroke(Color.RED);
+        paa.setStroke(Color.BLACK);
+        vartalo.setStroke(Color.RED);
+        kasiVasen.setStroke(Color.RED);
+        kasiOikea.setStroke(Color.RED);
+        jalkaVasen.setStroke(Color.RED);
+        jalkaOikea.setStroke(Color.RED);
+    }
+
+    public void vaarinMeni() {
+        if (!paneeli.getChildren().contains(ellipsi))
+            paneeli.getChildren().add(ellipsi);
+        else if (!paneeli.getChildren().contains(pystypuu))
+            paneeli.getChildren().add(pystypuu);
+        else if (!paneeli.getChildren().contains(poikkipuu))
+            paneeli.getChildren().add(poikkipuu);
+        else if (!paneeli.getChildren().contains(naru))
+            paneeli.getChildren().add(naru);
+        else if (paneeli.getChildren().contains(naru) && !paneeli.getChildren().contains(paa))
+            paneeli.getChildren().add(paa);
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(vartalo))
+            paneeli.getChildren().add(vartalo);
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiVasen))
+            paneeli.getChildren().add(kasiVasen);
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(kasiOikea))
+            paneeli.getChildren().add(kasiOikea);
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaVasen))
+            paneeli.getChildren().add(jalkaVasen);
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaOikea)) {
+            paneeli.getChildren().add(jalkaOikea);
+            havisitPelin = true; // Viimeisen piirron yhteydessä merkitään tämä.
+        }
+
+    }
+
+    public boolean getHavisitPelin() {
+        return havisitPelin;
+    }
+}
+
+
+// ---------- tehtava5_kirjainNaytto.java ----------
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+
+class tehtava5_kirjainNaytto {
+    GridPane kirjainRivi = new GridPane(5, 5);
+    private String sana;
+    private char[] sanaArray;
+    private boolean voititPelin = false;
+
+    public tehtava5_kirjainNaytto(String annettuSana) {
+        this.sana = annettuSana.toLowerCase();
+        sanaArray = new char[sana.length()];
+        for (int i = 0; i < sana.length(); i++) {
+            sanaArray[i] = (annettuSana.toLowerCase()).charAt(i);
+            kirjainRivi.add(new Text("_"), i, 0);
+        }
+    }
+    public boolean tarkistaja(char arvausLower) {
+        boolean olikoOikein = false;
+        kirjainRivi.getChildren().clear(); // Tyhjennetään gridpane ja seuraavaksi täytetään se uudestaan.
+
+        // Tarkastus
+        for (int i = 0; i < sana.length(); i++) { // Käydään läpi aiemmin tallennettu sana kirjain kerrallaan.
+            if (Character.toLowerCase(sanaArray[i]) == arvausLower) { // Verrataan arvausta taulukosta löytyvään pieneen kirjaimeen.
+                sanaArray[i] = Character.toUpperCase(arvausLower); // Merkitään uudet oikeat arvaukset isolla kirjaimella.
+                olikoOikein = true;
+
+                // Jokaisen oikean arvauksen jälkeen tarkastetaan, onko jäljellä arvattavia kirjaimia.
+                boolean voittoTarkastaja = true;
+                for (char j : sanaArray) {
+                    if (Character.isLowerCase(j)) voittoTarkastaja = false;
+                }
+                if (voittoTarkastaja) voititPelin = true;
+            }
+        }
+        // Uuden rivin kirjaus
+        for (int i = 0; i < sana.length(); i++) {
+            if (Character.isUpperCase(sanaArray[i])) {
+                kirjainRivi.add(new Text(Character.toString(sanaArray[i])), i, 0); // Merkitään oikein arvattu kirjain taulukkoon isona.
+            } else {
+                kirjainRivi.add(new Text("_"), i, 0); // Väärät arvaukset on yhä merkitty alaviivalla.
+            }
+
+        }
+        return olikoOikein;
+    }
+
+    public boolean getVoititPelin() {  return voititPelin;  }
+    public String getSana() {  return sana;  }
+}
 
 
 ######################################

@@ -1,8 +1,5 @@
 package test.viikko6;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,6 +20,7 @@ class tehtava5_hirsipuu {
     Line kasiOikea = new Line(180,120,200,170);
     Line jalkaVasen = new Line(180,200,160,240);
     Line jalkaOikea = new Line(180,200, 200, 240);
+    private boolean havisitPelin = false;
 
     // Hyödynnetään alustajaa, joka muuttaa värit oikein.
     public tehtava5_hirsipuu() {
@@ -56,7 +54,14 @@ class tehtava5_hirsipuu {
             paneeli.getChildren().add(kasiOikea);
         else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaVasen))
             paneeli.getChildren().add(jalkaVasen);
-        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaOikea))
+        else if (paneeli.getChildren().contains(naru)  && !paneeli.getChildren().contains(jalkaOikea)) {
             paneeli.getChildren().add(jalkaOikea);
+            havisitPelin = true; // Viimeisen piirron yhteydessä merkitään tämä.
+        }
+
+    }
+
+    public boolean getHavisitPelin() {
+        return havisitPelin;
     }
 }

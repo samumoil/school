@@ -1,20 +1,15 @@
 package test.viikko6;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class tehtava6 extends Application {
 
@@ -28,22 +23,47 @@ public class tehtava6 extends Application {
         Pane paneeliFinal = mikroOlio.paneeliFinal;
         Scene kehys = new Scene(paneeliFinal);
 
+        // Hoidetaan ensin laskurin koodi.
+        // Tämä on se asia, jota toistetaan.
+        EventHandler<ActionEvent> vahennaLukua = e -> {
+            String uusiAika = Integer.toString(mikroOlio.getAika()-1);
+            mikroOlio.setAika(uusiAika);
+            if (Integer.parseInt(uusiAika) == 0)
+                mikroOlio.setRuokaValmis();
+        };
 
-        // setRuokakuva()
-        // setKohtaValmis()
-        // setRuokaValmis()
-        // setNumeroNaytonNumerot(String teksti)
+        Timeline laskuri = new Timeline(new KeyFrame(Duration.seconds(1), vahennaLukua));
 
+        // Nappien toiminta.
+        mikroOlio.start.setOnAction(e -> {
+            laskuri.setCycleCount(mikroOlio.getAika());
+            laskuri.play();
+        });
+        mikroOlio.stop.setOnAction(e -> {
+            laskuri.pause();
+        });
+        mikroOlio.clear.setOnAction(e -> {
+            laskuri.stop();
+            mikroOlio.setRuokakuva();
+            mikroOlio.setAika("0");
+        });
+
+        // Lämmitysajan lisääminen.
+        kehys.setOnKeyTyped(e -> {
+            char painettuNappain = e.getCharacter().charAt(0);
+            if (!(laskuri.getStatus() == Animation.Status.RUNNING)) { // Ei lisätä aikaa, jos laskuri on käynnissä.
+                if (Character.isDigit(painettuNappain)) mikroOlio.lisaaAikaa(e.getCharacter()); // Varmistetaan, että painettu on numero ja lisätään se.
+            }
+        });
+
+        // Hiiren sijainnilla aktivoituva teksti.
         mikroOlio.paneeliOvi.setOnMouseEntered(e -> mikroOlio.setKohtaValmis() );
         mikroOlio.paneeliOvi.setOnMouseExited(e -> mikroOlio.setRuokakuva() );
-
-        mikroOlio.clear.setOnAction(e -> {
-            mikroOlio.setRuokakuva();
-            mikroOlio.setNumeroNaytonNumerot("0");
-        });
 
         lava.setScene(kehys);
         lava.setTitle("Tehtävä 6");
         lava.show();
     }
 }
+
+

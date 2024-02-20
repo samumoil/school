@@ -149,6 +149,8 @@ TEHTÄVÄ 3:
 ######################################
 
 // ---------- tehtava3.java ----------
+package test.viikko6;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.geometry.HPos;
@@ -224,6 +226,7 @@ public class tehtava3 extends Application {
 }
 
 // ---------- Sijoitus.java ----------
+package test.viikko6;
 
 import static java.lang.Double.parseDouble;
 
@@ -285,6 +288,8 @@ TEHTÄVÄ 4:
 ######################################
 
 // ---------- tehtava4.java ----------
+package test.viikko6;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -317,6 +322,8 @@ public class tehtava4 extends Application {
 }
 
 // ---------- tehtava4_hirsipuu.java ----------
+package test.viikko6;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -386,6 +393,8 @@ TEHTÄVÄ 5:
 ######################################
 
 // ---------- tehtava5.java ----------
+package test.viikko6;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -451,6 +460,8 @@ public class tehtava5 extends Application {
 
 
 // ---------- tehtava5_hirsipuu.java ----------
+package test.viikko6;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -519,6 +530,8 @@ class tehtava5_hirsipuu {
 
 
 // ---------- tehtava5_kirjainNaytto.java ----------
+package test.viikko6;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -575,17 +588,168 @@ class tehtava5_kirjainNaytto {
 TEHTÄVÄ 6:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava6.java ----------
+package test.viikko6;
 
-// ---------- Main.java ----------
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+public class tehtava6 extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage lava) {
+        tehtava6_mikro mikroOlio = new tehtava6_mikro();
+        Pane paneeliFinal = mikroOlio.paneeliFinal;
+        Scene kehys = new Scene(paneeliFinal);
+
+        // Hoidetaan ensin laskurin koodi.
+        // Tämä on se asia, jota toistetaan.
+        EventHandler<ActionEvent> vahennaLukua = e -> {
+            String uusiAika = Integer.toString(mikroOlio.getAika()-1);
+            mikroOlio.setAika(uusiAika);
+            if (Integer.parseInt(uusiAika) == 0)
+                mikroOlio.setRuokaValmis();
+        };
+
+        Timeline laskuri = new Timeline(new KeyFrame(Duration.seconds(1), vahennaLukua));
+
+        // Nappien toiminta.
+        mikroOlio.start.setOnAction(e -> {
+            laskuri.setCycleCount(mikroOlio.getAika());
+            laskuri.play();
+        });
+        mikroOlio.stop.setOnAction(e -> {
+            laskuri.pause();
+        });
+        mikroOlio.clear.setOnAction(e -> {
+            laskuri.stop();
+            mikroOlio.setRuokakuva();
+            mikroOlio.setAika("0");
+        });
+
+        // Lämmitysajan lisääminen.
+        kehys.setOnKeyTyped(e -> {
+            char painettuNappain = e.getCharacter().charAt(0);
+            if (!(laskuri.getStatus() == Animation.Status.RUNNING)) { // Ei lisätä aikaa, jos laskuri on käynnissä.
+                if (Character.isDigit(painettuNappain)) mikroOlio.lisaaAikaa(e.getCharacter()); // Varmistetaan, että painettu on numero ja lisätään se.
+            }
+        });
+
+        // Hiiren sijainnilla aktivoituva teksti.
+        mikroOlio.paneeliOvi.setOnMouseEntered(e -> mikroOlio.setKohtaValmis() );
+        mikroOlio.paneeliOvi.setOnMouseExited(e -> mikroOlio.setRuokakuva() );
+
+        lava.setScene(kehys);
+        lava.setTitle("Tehtävä 6");
+        lava.show();
+    }
+}
 
 
 
-######################################
-TEHTÄVÄ 7:
-######################################
+// ---------- tehtava6_mikro.java ----------
+package test.viikko6;
 
-// ---------- Kurssi.java ----------
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
-// ---------- Main.java ----------
+class tehtava6_mikro {
+    // Reunus kuvalle
+    private Rectangle reunus = new Rectangle(560, 210, Color.WHITE);
+
+    // Mikron ovi ja sisällä näkyvä ruoka
+    private Image ruoka = new Image("file:ruokalautanen.png", 200, 200, true, true);
+    private ImageView ruokaNaytto = new ImageView(ruoka);
+    private Rectangle oviSuorakulmio = new Rectangle(300, 200, Color.WHITE);
+    StackPane paneeliOvi = new StackPane(oviSuorakulmio, ruokaNaytto); // Tämä ei voi olla private, jotta voi tehdä aktivaation hiirisijainnilla.
+    // Tehtävän 6 vaihtoehtoiset tekstit kuvan tilalle:
+    private Text kohtaValmis = new Text("Ruoka on kohta valmis");
+    private Text ruokaValmis = new Text("Ruoka on valmista!");
+
+    // Numeronäyttö
+    private Rectangle numeroNaytonTausta = new Rectangle(150, 40, Color.WHITE);
+    private String tekstiNumeroNayttoon = "0";
+    private Text tekstiNode = new Text(tekstiNumeroNayttoon);
+    private StackPane numeroNaytto = new StackPane(numeroNaytonTausta, tekstiNode);
+
+    // Napit numeronäytön alla. Nämäkään eivät voi olla private, jotta aktivointi onnistuu.
+    Button start = new Button("Start");
+    Button stop = new Button("Stop");
+    Button clear = new Button("Clear");
+    private HBox nappiRivi = new HBox(start, stop, clear);
+
+    // Teksti oikeaan alanurkkaan
+    private Text MIKROAALTOUUNI = new Text("MIKROAALTOUUNI");
+
+    // Asetellaan palaset paikoilleen. Sijainnit on määritelty .relocate-metodilla jokaiselle erikseen.
+    Pane paneeliFinal = new Pane();
+
+    // Alustaja mikroOliolle.
+    public tehtava6_mikro() {
+        tekstiNode.setFont(new Font(16)); // Säädetään fonttia isommaksi
+        numeroNaytto.relocate(400, 5);
+        paneeliOvi.relocate(40, 5); // Sijoitetaan ovi oikeaan kohtaan
+        reunus.setStroke(Color.BLACK);
+        oviSuorakulmio.setStroke(Color.BLACK);
+        numeroNaytonTausta.setStroke(Color.BLACK);
+        nappiRivi.relocate(400, 46);
+        MIKROAALTOUUNI.setFont(new Font(16));
+        MIKROAALTOUUNI.relocate(400, 180);
+
+        paneeliFinal.getChildren().addAll(
+                reunus,
+                paneeliOvi,
+                numeroNaytto,
+                nappiRivi,
+                MIKROAALTOUUNI
+        );
+
+    }
+
+    public void setRuokakuva() {
+        paneeliOvi.getChildren().clear();
+        paneeliOvi.getChildren().addAll(oviSuorakulmio, ruokaNaytto);
+    }
+    public void setKohtaValmis() {
+        paneeliOvi.getChildren().clear();
+        paneeliOvi.getChildren().addAll(oviSuorakulmio, kohtaValmis);
+    }
+    public void setRuokaValmis() {
+        paneeliOvi.getChildren().clear();
+        paneeliOvi.getChildren().addAll(oviSuorakulmio, ruokaValmis);
+    }
+    public void setAika(String teksti) {
+        tekstiNumeroNayttoon = teksti;
+        tekstiNode.setText(tekstiNumeroNayttoon);
+    }
+    public int getAika() {  return Integer.parseInt(tekstiNumeroNayttoon);  }
+    public void lisaaAikaa(String numero) {
+        if (tekstiNumeroNayttoon.equals("0")) {  tekstiNumeroNayttoon = numero;  } // Ensimmäinen lisättävä numero.
+        else { // Loput konkatenoidaan aiemmin lisättyjen perään. Maksimi 6 numeroa.
+            if (tekstiNumeroNayttoon.length() < 6) tekstiNumeroNayttoon = tekstiNumeroNayttoon.concat(numero);
+        }
+        tekstiNode.setText(tekstiNumeroNayttoon); // Päivitetään node.
+    }
+}
+
 

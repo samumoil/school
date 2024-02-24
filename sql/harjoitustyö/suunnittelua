@@ -1,0 +1,73 @@
+### Partiojohtajan tietokanta ###
+
+Partiolainen
+- partiolainen_id
+- etunimi
+- sukunimi
+- syntymävuosi
+- osallistuu kokouksiin
+
+Partiomerkki
+- nimi
+- kategoria
+- ikakausi
+
+Suoritus (yksittäinen suoritus partiomerkkiin)
+- suoritus_id
+- suorituksen nimi
+- sisällä/ulkona
+- kesto
+- kuvaus NOT NULL
+
+Partioryhmä
+- ryhma_id
+- ryhmän nimi
+- johtajat
+- ryhmäläiset
+- kokoontumisviikonpäivä NOT
+- kokoontumisaika
+- kokoontumispaikka
+
+Kokous
+- pvm
+- ryhmä
+- suoritukset
+
+Kokouksen osallistujat
+- pvm
+- ryhmä
+- ryhmäläinen
+
+Ryhmän roolit
+- partiolainen_id
+- ryhma_id
+- rooli
+
+
+
+### Näkymiä ###
+- Mitä merkkejä on suoritettu vuoden aikana?
+- Osallistuminen kokouksiin?
+
+### Indeksit ###
+- 
+
+
+
+Vaatimukset tietokannan toteutukselle:
+• Tauluja vähintään 7 kpl
+• Muuhun kuin avainkenttiin perustuvia indeksejä vähintään 2 kpl
+• Näkymiä vähintään 2 kpl
+• Ainakin 1 näkymä hakee dataa liitoskyselyn avulla
+• Ainakin 1 näkymä käyttää ryhmittelyä ja koostefunktiota
+• Jokaisella taululla pitää olla pääavainrajoite
+• Kaikki taulut joko viittaavat johonkin tauluun tai niihin viitataan 
+vierasavainrajoitteella.
+• Jokaista seuraavista rajoitteista on käytetty ainakin kerran
+o not null (muualla kuin pääavaimessa)
+o check
+o default
+o unique
+• Ainakin yhdessä taulussa on automaattisesti generoitu (keinotekoinen) 
+pääavain ja ainakin yhdessä taulussa on luonnollinen pääavain (ei 
+generoitu)

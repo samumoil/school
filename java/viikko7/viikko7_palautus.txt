@@ -613,9 +613,259 @@ public class tehtava5 extends Application {
 TEHTÄVÄ 6:
 ######################################
 
-// ---------- Kurssi.java ----------
+// ---------- tehtava6.java ----------
+package test.viikko7;
 
-// ---------- Main.java ---------- 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+
+
+public class tehtava6 extends Application {
+
+    // Luodaan näkymä apuluokan avulla. Katso näkymän yksityiskohdat tiedostosta tehtava6_nakyma.java
+    tehtava6_nakyma nakymaOlio = new tehtava6_nakyma();
+    BorderPane finalPane = nakymaOlio.nakyma;
+
+    // Luodaan/luetaan pankkitilit apuluokan avulla. Katso yksityiskohdat tiedostosta tehtava6_pankkitilitaulukko.java
+    tehtava6_pankkitilitaulukko tilitaulukkoOlio = new tehtava6_pankkitilitaulukko();
+
+    // Muuttuja käsiteltävän tilin valintaan
+    int valittuTiliIndeksi = -1;
+
+    /**
+     * Tämä metodi päivittää keskellä näkyvän tekstialueen sisällön.
+     */
+    void paivitaNaytto() {
+        nakymaOlio.tekstiAlue.setText("Tilin " + (valittuTiliIndeksi +1) + " tiedot" +
+                "\nVuosikorko = " + tilitaulukkoOlio.tilit[valittuTiliIndeksi].getVuosiKorko() +
+                "\nSaldo = " + tilitaulukkoOlio.tilit[valittuTiliIndeksi].getSaldo());
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+    @Override
+    public void start(Stage lava) {
+
+        // Tilivalinnan toiminnallisuus
+        nakymaOlio.tiliLista.getSelectionModel().selectedItemProperty().addListener(e -> {
+            valittuTiliIndeksi = nakymaOlio.tiliLista.getSelectionModel().getSelectedIndex();
+            paivitaNaytto();
+        });
+
+        // Nappien toiminnallisuus
+        nakymaOlio.nappiNosta.setOnAction(e -> {
+            double nostoSumma = Double.parseDouble(nakymaOlio.summaKentta.getText());
+            tilitaulukkoOlio.tilit[valittuTiliIndeksi].nosta(nostoSumma);
+            paivitaNaytto();
+        });
+        nakymaOlio.nappiTalleta.setOnAction(e -> {
+            double talletusSumma = Double.parseDouble(nakymaOlio.summaKentta.getText());
+            tilitaulukkoOlio.tilit[valittuTiliIndeksi].talleta(talletusSumma);
+            paivitaNaytto();
+        });
+        nakymaOlio.nappiLopeta.setOnAction(e -> {
+            tilitaulukkoOlio.talletaTilit();
+            System.exit(0);
+        });
+
+
+        Scene kehys = new Scene(finalPane, 600,400);
+        lava.setScene(kehys);
+        lava.setTitle("Käsittele pankkitiliä:");
+        lava.show();
+    }
+
+}
+
+
+
+// ---------- tehtava6_nakyma.java ----------
+package test.viikko7;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+
+public class tehtava6_nakyma {
+
+    public BorderPane nakyma = new BorderPane();
+
+    // Vasen laita
+    ObservableList<String> tilit = FXCollections.observableArrayList("1","2","3","4","5","6","7","8","9","10");
+    public ListView<String> tiliLista = new ListView<>(tilit);
+
+    // Keskiosan tekstikenttä
+    TextArea tekstiAlue = new TextArea();
+
+    // Alaosan Hbox, napit, label sekä tekstikenttä
+    public Button nappiNosta = new Button("Nosta");
+    public Button nappiTalleta = new Button("Talleta");
+    Label summaTeksti = new Label("Summa:");
+    public TextField summaKentta = new TextField();
+    public Button nappiLopeta = new Button("Lopeta");
+    HBox laatikkoAlas = new HBox(nappiNosta, nappiTalleta, summaTeksti, summaKentta, nappiLopeta);
+
+    public tehtava6_nakyma() {
+        // Tehdään tarvittavat hienosäädöt esitettäviin asioihin ja liitetään ne BorderPaneen
+
+        tiliLista.setPrefWidth(50);
+        nakyma.setLeft(tiliLista);
+
+        tekstiAlue.setText("Tervetuloa pankkiin! Ole hyvä ja valitse tili vasemmalta.");
+        tekstiAlue.setWrapText(true);
+        nakyma.setCenter(tekstiAlue);
+
+        nakyma.setBottom(laatikkoAlas);
+        laatikkoAlas.setPadding(new Insets(10,10,10,10));
+        laatikkoAlas.setAlignment(Pos.CENTER);
+    }
+}
+
+
+// ---------- tehtava6_pankkitilitaulukko.java ----------
+package test.viikko7;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.*;
+
+public class tehtava6_pankkitilitaulukko {
+
+    // alustetaan muutama tili
+    tehtava6_tili[] tilit = new tehtava6_tili[10];
+
+    // Luodaan tiedostopolku sekä tiedosto-olio
+    String tiedostoPolku = "tilit.dat";
+    File tiedostonTarkistaja = new File(tiedostoPolku);
+
+    public tehtava6_pankkitilitaulukko() {
+        // Tarkistetaan, onko tiedostoa olemassa
+        if (tiedostonTarkistaja.exists()) {
+            // Yritetään lukea Tili-oliot tiedostosta
+            ObjectInputStream virrastaOlioksi;
+            try {
+                FileInputStream tiedostostaVirta = new FileInputStream(tiedostoPolku);
+                virrastaOlioksi = new ObjectInputStream(tiedostostaVirta);
+                for (int i = 0; i < tilit.length; i++) {
+                    tilit[i] = (tehtava6_tili) virrastaOlioksi.readObject();
+                }
+                virrastaOlioksi.close(); // Suljetaan tiedosto
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        // Jos tiedostoa ei ole, täytetään tili-taulukko.
+        else {
+            for (int i = 0; i < 10; i++) {
+                tilit[i] = new tehtava6_tili(i + 1, 100);
+            }
+        }
+    }
+
+    public void talletaTilit() {
+        ObjectOutputStream oliostaVirraksi;
+        try {
+            FileOutputStream virrastaTiedostoon = new FileOutputStream(tiedostoPolku);
+            oliostaVirraksi = new ObjectOutputStream(virrastaTiedostoon);
+            for (tehtava6_tili tiliOlio : tilit) {
+                oliostaVirraksi.writeObject(tiliOlio);
+            }
+            oliostaVirraksi.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+
+
+// ---------- tehtava6_tili.java ----------
+package test.viikko7;
+
+import java.io.Serializable;
+import java.util.Date;
+public class tehtava6_tili implements Serializable {
+    private int id;
+    private double saldo;
+    private static double vuosiKorko = 0;
+    private Date luontiPaiva;
+
+    public tehtava6_tili() {
+        this.id = 0;
+        this.saldo = 0;
+        this.luontiPaiva = new Date();
+    }
+
+    public tehtava6_tili(int id, double saldo) {
+        this.id = id;
+        this.saldo = saldo;
+        this.luontiPaiva = new Date();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public static double getVuosiKorko() {
+        return vuosiKorko;
+    }
+
+    public static void setVuosiKorko(double vuosiKorko) {
+        tehtava6_tili.vuosiKorko = vuosiKorko;
+    }
+
+    public Date getLuontiPaiva() {
+        return luontiPaiva;
+    }
+    public double getKuukausiKorkoProsentti() {
+        return getVuosiKorko() / 12;
+    }
+    public double getKuukausiKorko() {
+        return saldo * getKuukausiKorkoProsentti()/100;
+    }
+    public void nosta(double summa) {
+        if (summa <= saldo) {
+            saldo = saldo - summa;
+        }
+        else {
+            System.out.println("nostettiin " + saldo + "euroa. Tili tyhjä.");
+            saldo = 0;
+        }
+    }
+    public void talleta(double summa) {
+        if (summa > 0) {
+            saldo += summa;
+        }
+        else {
+            System.out.println("ei voida tallettaa negatiivista summaa. ");
+        }
+    }
+}
+
 
 
 

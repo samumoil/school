@@ -14,12 +14,12 @@ public class ValintaLajittelu {
             System.arraycopy(lista, lista.length / 2, toinenPuoli, 0, toisenPuolenPituus);
             valintaLajittelu(toinenPuoli);
 
-            // yhdistet��n ekapuoli ja toinenpuoli
+            // yhdistetään ekapuoli ja toinenpuoli
             yhdista(ekaPuoli, toinenPuoli, lista);
         }
     }
 
-    // yhdistet��n kaksi lajiteltua listaa
+    // yhdistetään kaksi lajiteltua listaa
     public static void yhdista(int[] lista1, int [] lista2, int [] tilap) {
         int nyk1 = 0; // listan 1 indeksi
         int nyk2 = 0; // listan 2 indeksi

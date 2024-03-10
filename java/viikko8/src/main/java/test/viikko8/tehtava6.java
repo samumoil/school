@@ -31,10 +31,10 @@ public class tehtava6 {
         long loppuaikaOma = System.currentTimeMillis();
 
         // Tulostetaan oman lajittelun tulokset näkyviin
-        int tulostinLaskuri = 0;
-        for (int luku : listaOma) {
-            System.out.println("Oman lajittelun luku indeksillä " + tulostinLaskuri++ + " on " + luku);
-        }
+        //int tulostinLaskuri = 0;
+        //for (int luku : listaOma) {
+        //    System.out.println("Oman lajittelun luku indeksillä " + tulostinLaskuri++ + " on " + luku);
+        //}
 
         // Tulostetaan aikavertailun tulokset
         System.out.println("\nValintaLajittelun nopeus oli " + (loppuaikaOpe-alkuaikaOpe) + " millisekuntia");

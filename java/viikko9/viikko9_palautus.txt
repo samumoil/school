@@ -1,0 +1,739 @@
+######################################
+TEHTÄVÄ 1:
+######################################
+
+// ---------- tehtava1.java ----------
+package test.viikko9;
+
+public class tehtava1 {
+    public static void main(String[] args ) {
+        Double[] saldot = {940.42, 340.11, 42.00, 2056.44, 1593.47};
+        String[] kaupungit = {"Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"};
+
+        tehtava1.<Double>print(saldot);
+        tehtava1.<String>print(kaupungit);
+    }
+
+    public static <E> void print(E[] list) {
+        for (int i = 0; i < list.length; i++)
+            System.out.print(list[i] + " ");
+        System.out.println();
+    }
+}
+
+
+
+######################################
+TEHTÄVÄ 2:
+######################################
+// ---------- tehtava2.java ----------
+package test.viikko9;
+
+public class tehtava2 {
+    public static void main(String[] args ) {
+
+        // Määritellään kaupungit-apulista.
+        String[] kaupungit = {"Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"};
+
+        // Luodaan pinot.
+        GenericStack<String> kaupunkiPino = new GenericStack<>();
+        GenericStack<String> toinenPino = new GenericStack<>();
+
+        // Sijoitetaan kaupungit ensimmäiseen pinoon.
+        for (String kaupunki : kaupungit)
+            kaupunkiPino.push(kaupunki);
+
+        // Tulostetaan kaupunkiPinon päällimmäinen kaupunki. Lisätään se toiseen pinoon ja poistetaan ensimmäisestä.
+        while (!kaupunkiPino.isEmpty()) {
+            System.out.println(kaupunkiPino.peek());
+            toinenPino.push(kaupunkiPino.pop());
+        }
+
+        System.out.println();
+
+        // Kokeillaan vielä, mitä toiseen pinoon tuli laitettua.
+        while (!toinenPino.isEmpty()) System.out.println(toinenPino.pop());
+    }
+}
+
+/**
+ * Tämä on suoraan kopioitu opettajan mallista.
+ * @param <E>
+ */
+class GenericStack<E> {
+    private java.util.ArrayList<E> list = new java.util.ArrayList<E>();
+
+    public int getSize() {
+        return list.size();
+    }
+
+    public E peek() {
+        return list.get(getSize() - 1);
+    }
+
+    public void push(E o) {
+        list.add(o);
+    }
+
+    public E pop() {
+        E o = list.get(getSize() - 1);
+        list.remove(getSize() - 1);
+        return o;
+    }
+
+    public boolean isEmpty() {
+        return list.isEmpty();
+    }
+}
+
+
+
+
+
+######################################
+TEHTÄVÄ 3:
+######################################
+
+// ---------- tehtava3.java ----------
+package test.viikko9;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
+public class tehtava3 {
+    public static void main(String[] args) {
+
+        // Määritellään kaupungit-apulista.
+        String[] kaupungit = {"Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu"};
+
+        // Luodaan 5:n pituinen ArrayList<String> ja lisätään edellinen lista.
+        ArrayList<String> kaupunkiLista = new ArrayList<>(5);
+        kaupunkiLista.addAll(List.of(kaupungit));
+
+        // Montako nimeä listalla on? Onko Helsinki listalla?
+        System.out.println("Listalla on " + kaupunkiLista.size() + " kaupunkia.");
+        System.out.println("Onko Helsinki listalla? " + kaupunkiLista.contains("Helsinki"));
+
+        // Tulostetaan lista. Harjoitellaan iteraattorin käyttöä.
+        ListIterator<String> iteraattori = kaupunkiLista.listIterator();
+        while (iteraattori.hasNext())
+            System.out.print(iteraattori.next() + " ");
+    }
+}
+
+
+
+######################################
+TEHTÄVÄ 4:
+######################################
+
+// ---------- tehtava4.java ----------
+package test.viikko9;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class tehtava4 {
+    public static void main(String[] args ) {
+        // Luodaan kolme lisättävää lääkäriä.
+        Laakari laakari1 = new Laakari();
+        laakari1.setLaakarinro(1001);
+        laakari1.setNimi("Matti Möttönen");
+        laakari1.setOsasto("Sydänpoli");
+
+        Laakari laakari2 = new Laakari();
+        laakari2.setLaakarinro(1002);
+        laakari2.setNimi("Martta Oikarinen");
+        laakari2.setOsasto("Päivystys");
+
+        Laakari laakari3 = new Laakari();
+        laakari3.setLaakarinro(1003);
+        laakari3.setNimi("Krista Kosonen");
+        laakari3.setOsasto("Syke-osasto");
+
+        // Luodaan lääkärilista ja isätään kolme lääkäriä listalle.
+        LaakariLista lista = new LaakariLista();
+        lista.lisaaLaakari(laakari1);
+        lista.lisaaLaakari(laakari2);
+        lista.lisaaLaakari(laakari3);
+
+        // Tulostetaan listan sisältö.
+        System.out.println(lista.toString());
+    }
+}
+
+
+// Nämä seuraavat luokat on kopioitu suoraan mallista.
+
+
+/**
+ * @(#)Laakari.java
+ *
+ * Tämä luokka kuvaa yhden lääkärin tiedot.
+ * Luokasta on viite listalla seuraavaan lääkäriin (linkitetty lista)
+ * @author Marko ja muut
+ * @version 1.00 2011/1/23
+ */
+
+class Laakari implements Serializable
+{
+    /** Muuttuja kuvaa lääkärin numeron, numerot ovat väliltä 1000-2999 */
+    private int iLaakarinro;
+    /** Muuttuja kuvaa lääkärin nimen, jos nimeä ei ole, on oletusarvo "Ei tiedossa" */
+    private String sNimi;
+    /** Muuttuja kuvaa lääkärin syntymäpäivän päiväyksen, jos syntymäpäivää ei ole, on oletusarvo 1.1.1900 */
+    private Calendar cSyntymapaiva;
+    /** Muuttuja kuvaa lääkärin osaston jolla hän työskentelee, jos nimeä ei ole, on oletusarvo "Ei tiedossa"  */
+    private String sOsasto;
+    /** Muuttuja seuraava on linkki listalla olevaan seuraavaan lääkäriin. Jos kyseessä on listan viimeinen lääkäri, viittaa muuttuja tyhjään (null-arvo) */
+    private Laakari seuraava;
+
+    // Konstruktorit
+
+    /**
+     * Tyhjä oletuskonstruktori
+     * Lääkärin arvot asetetaan oletusarvoihinsa
+     */
+    public Laakari()
+    {
+        iLaakarinro = 0;
+        sNimi = "";
+        cSyntymapaiva = Calendar.getInstance();
+        cSyntymapaiva.clear();
+        cSyntymapaiva.set(0000, 0, 1);
+        sOsasto = "";
+    }
+
+    /**
+     * Konstruktori jossa asetetaan uuden lääkärin tiedot.
+     * Tietojen asettamisessa käytetään set-metodeja.
+     * @param iLaakarinro Lääkärin lääkärinumero (väliltä 1000-2999)
+     * @param sNimi Lääkärin nimi
+     * @param cSyntymapaiva Lääkärin syntymäpäivä
+     * @param sOsasto Osasto jolla lääkäri työskentelee
+     */
+    public Laakari(int iLaakarinro, String sNimi, Calendar cSyntymapaiva, String sOsasto)
+    {
+        setLaakarinro(iLaakarinro);
+        setNimi(sNimi);
+        setSyntymapaiva(cSyntymapaiva);
+        setOsasto(sOsasto);
+    }
+
+    // Pääsymetodit eli aksessorit (set ja get)
+    public void setLaakarinro(int iLaakarinro)
+    {
+        if (iLaakarinro < 1000 | iLaakarinro > 2999)
+            this.iLaakarinro = 0;
+        else
+            this.iLaakarinro = iLaakarinro;
+    }
+    /**
+     *  Metodi asettaa lääkärin nimen.
+     *  Jos parametri on tyhjä, asetetaan merkkijono "Ei tiedossa"
+     *  @param sNimi Lääkärin nimi
+     **/
+    public void setNimi(String sNimi)
+    {
+        if (sNimi == null)
+            this.sNimi = "Ei tiedossa";
+        else
+            this.sNimi = sNimi;
+    }
+    /**
+     * Metodi asettaa parametrina tulleen Calendar -olion lääkärin syntymäpäiväksi
+     * Jos parametri on tyhjä viite (null-arvo), asetetaan syntymäpäiväksi 1.1.1900
+     * @param cSyntymapaiva Ilmaisee lääkärin syntymäpäivän (Calendar -olio)
+     **/
+    public void setSyntymapaiva(Calendar cSyntymapaiva)
+    {
+        if (cSyntymapaiva == null)
+        {
+            this.cSyntymapaiva = Calendar.getInstance();
+            this.cSyntymapaiva.clear();
+            this.cSyntymapaiva.set(1900, 0, 1);
+        }
+        else
+            this.cSyntymapaiva = cSyntymapaiva;
+    }
+
+    public void setOsasto(String sOsasto)
+    {
+        if (sOsasto == null)
+            this.sOsasto = "Ei tiedossa";
+        else
+            this.sOsasto = sOsasto;
+    }
+
+    // viittaus listan seuraavaan alkioon
+    public void setSeuraava(Laakari seuraava)
+    {
+        this.seuraava = seuraava;
+    }
+
+    public int getLaakarinro()
+    {
+        return iLaakarinro;
+    }
+
+    /**
+     * Metodi palauttaa lääkärin nimen
+     * @return Lääkärin nimi (sNimi)
+     **/
+    public String getNimi()
+    {
+        return sNimi;
+    }
+
+    public Calendar getSyntymapaiva()
+    {
+        return cSyntymapaiva;
+    }
+
+    public String getOsasto()
+    {
+        return sOsasto;
+    }
+
+    // palauttaa viittauksen listan seuraavaan alkioon
+    public Laakari getSeuraava()
+    {
+        return seuraava;
+    }
+
+    // toString()tulostaa yhden alkion tiedot
+    public String toString()
+    {
+        String sLaakarituloste = "Lääkäri:";
+        sLaakarituloste += " " + iLaakarinro;
+        sLaakarituloste += " " + sNimi;
+        SimpleDateFormat muunnos = new SimpleDateFormat("dd.MM.yyyy");
+        sLaakarituloste += " " + muunnos.format(cSyntymapaiva.getTime());
+        sLaakarituloste += " " + sOsasto;
+        return sLaakarituloste;
+    }
+}
+
+/**
+ * @(#)LaakariLista.java
+ *
+ *
+ * @author
+ * @version 1.00 2011/1/31
+ */
+
+
+class LaakariLista implements Serializable
+{
+    // viittaus listan ensimmäiseen alkioon
+    private Laakari ekaListalla;
+
+    /** Alustaja luo tyhjän listan eli viittaus  = null
+     */
+    public LaakariLista()
+    {
+        ekaListalla = null;
+    }
+
+    /** Palauttaa kaikki listan alkiot yhtenä merkkijonona
+     */
+    public String toString()
+    {
+        String sTulostettava = "";
+        Laakari seuraava = ekaListalla;
+        while(seuraava != null)
+        {
+            sTulostettava += seuraava + "\n";
+            seuraava = seuraava.getSeuraava();
+        }
+        return sTulostettava;
+    }
+
+    /** Lisää uuden alkion listan alkuun
+     */
+    public String lisaaLaakari(Laakari uusi)
+    {
+        // Tyhjä viite
+        if(uusi == null)
+            return "Tyhjä viite, lisäys epäonnistui!";
+
+        uusi.setSeuraava(ekaListalla);
+        ekaListalla = uusi;
+        return "Lisäys onnistui!";
+    }
+
+    /** Etsii poistettavan alkion lääkärin numeron perusteella
+     *  ja sitten päivittää linkit kohdalleen (ohittaa poistettavan)
+     */
+    public String poista(int iLaakariNro)
+    {
+        // Tyhjästä on paha nyhjästä
+        if(ekaListalla == null)
+            return "Poisto epäonnistui, lista on tyhjä!";
+
+        // Poistettava ekana listalla
+        if(ekaListalla.getLaakarinro() == iLaakariNro)
+        {
+            ekaListalla = ekaListalla.getSeuraava();
+            return "Poisto onnistui";
+        }
+
+        // Poistettava on muualla
+        Laakari hakuViite = ekaListalla;
+        while(hakuViite.getSeuraava() != null)
+        {
+            if(hakuViite.getSeuraava().getLaakarinro() == iLaakariNro)
+            {
+                Laakari poistettava = hakuViite.getSeuraava();
+                Laakari poistettavaaSeuraava = poistettava.getSeuraava();
+                Laakari poistettavaaEdellinen = hakuViite;
+                poistettavaaEdellinen.setSeuraava(poistettavaaSeuraava);
+
+
+                //hakuViite.setSeuraava(hakuViite.getSeuraava().getSeuraava());
+                return "Poisto onnistui";
+            }
+            hakuViite = hakuViite.getSeuraava();
+        }
+
+        return "Poisto epäonnistui";
+    }
+
+    /** Etsitään lääkäri "selaamalla" alusta listaa kunnes löytyy
+     */
+    public Laakari hae(int iLaakariNro)
+    {
+        Laakari hakuViite = ekaListalla;
+        while(hakuViite != null)
+        {
+            if(hakuViite.getLaakarinro() == iLaakariNro)
+                return hakuViite;
+            hakuViite = hakuViite.getSeuraava();
+        }
+        return null;
+    }
+
+    /** Etsitään lääkärit "selaamalla" alusta lista läpi
+     */
+    public String hae(String sOsasto)
+    {
+        String sLaakarit = "";
+
+        Laakari hakuViite = ekaListalla;
+        while(hakuViite != null)
+        {
+            if(hakuViite.getOsasto().equals(sOsasto))
+                sLaakarit += hakuViite;
+            hakuViite = hakuViite.getSeuraava();
+        }
+        return sLaakarit;
+    }
+}
+
+
+######################################
+TEHTÄVÄ 5:
+######################################
+
+// ---------- PankkiKayttoLiittyma.java ----------
+package test.viikko9;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+import java.io.*;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import java.io.Serializable;
+
+
+/**
+ * Luokka käynnistää ja ylläpitää pankkiautomaatin käyttöliittymää.
+ */
+public class PankkiKayttoLiittyma extends Application {
+    /** Indeksi tilin valintaan */
+    int iTili = 0;
+    /** Muuttuja, johon poimitaan nostettava tai talletettava summa käyttöliittymältä. */
+    double dSumma = 0;
+
+    /**
+     * Käynnistää java-koodin.
+     * @param args
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Luokan esittämä päänäkymä.
+     *
+     * @param primaryStage the primary stage for this application, onto which
+     * the application scene can be set.
+     * Applications may create other stages, if needed, but they will not be
+     * primary stages.
+     */
+    @Override
+    public void start(Stage primaryStage) {
+        Pankkiautomaatti automaatti = new Pankkiautomaatti();
+        String [] sTilinumeroLista = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        BorderPane brPohja = new BorderPane();
+        ListView<String> lv = new ListView<>
+                (FXCollections.observableArrayList(sTilinumeroLista));
+        lv.setPrefSize(50,300);
+        lv.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        brPohja.setLeft(lv);
+
+        TextArea taTiedot = new TextArea("Tilin tiedot");
+        brPohja.setCenter(taTiedot);
+
+        HBox hbPainikkeet = new HBox();
+        Label lbTyhja = new Label("                ");
+        Button btNosta = new Button("Nosta");
+        Button btTalleta = new Button("Talleta");
+        Label lbSumma = new Label("  Summa:");
+        TextField tfSumma = new TextField();
+        Button btLopeta = new Button("Lopeta");
+        hbPainikkeet.setPadding(new Insets(10, 10, 10, 10));
+        hbPainikkeet.getChildren().addAll(lbTyhja, btNosta, btTalleta, lbSumma, tfSumma, btLopeta);
+
+        brPohja.setBottom(hbPainikkeet);
+
+        lv.getSelectionModel().selectedItemProperty().addListener(
+                ov -> {
+                    //selitys = "Valitsit: ";
+                    iTili = lv.getSelectionModel().getSelectedIndex();
+                    taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+                });
+
+        btNosta.setOnAction(e -> {
+            dSumma = Double.parseDouble(tfSumma.getText());
+            automaatti.tilit[iTili].nosta(dSumma);
+            taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+        });
+        btTalleta.setOnAction(e -> {
+            dSumma = Double.parseDouble(tfSumma.getText());
+            automaatti.tilit[iTili].talleta(dSumma);
+            taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+        });
+        btLopeta.setOnAction(e -> {
+            automaatti.kirjoitaTiedostoon();
+            System.exit(0);
+        });
+
+        Scene scene = new Scene(brPohja, 500, 400);
+        primaryStage.setTitle("Käsittele pankkitiliä:");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}
+
+/**
+ * Luokan oliot kuvaavat yhden pankkitilin tietoja.
+ */
+class Pankkitili implements Serializable {
+    /** Muuttuja vuosikoron tallettamiseksi */
+    private double vuosiKorko;
+
+    /** Muuttuja saldon tallettamiseksi */
+    private double saldo;
+
+    /**
+     * Alustaa pankkiilin annetulla alkusaldolla.
+     * @param saldo
+     */
+    public Pankkitili(double saldo) {
+        this.saldo = saldo;
+    }
+
+    /**
+     * Alustaa pankkitilin toisen pankkitili-olion saldolla.
+     * @param tili
+     */
+    public Pankkitili(Pankkitili tili) {
+        this.saldo = tili.getSaldo();
+    }
+
+    /**
+     * Vuosikoron asetus
+     * @param vuosiKorko
+     */
+    public void setVuosiKorko(double vuosiKorko) {
+        this.vuosiKorko = vuosiKorko;
+    }
+
+    /**
+     * Summan talletus tilille.
+     * @param summa
+     */
+    public void talleta(double summa) {
+        if (summa > 0){
+            this.saldo += summa;
+            System.out.println("Talletettiin " + summa);
+        }
+        else
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+    }
+
+    /**
+     * Summan nosto tililta.
+     * @param summa
+     */
+    public void nosta(double summa) {
+        if (summa < 0)
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+        else if (summa <= this.saldo) {
+            this.saldo -= summa;
+            System.out.println("Nostettiin " + summa);
+        }
+        else {
+            System.out.println("Tililla ei ole riittavasti katetta.");
+            System.out.println("Nostettiin " + this.saldo);
+            this.saldo = 0;
+
+        }
+    }
+
+    /**
+     * Kuukausikoron lisays.
+     */
+    public void lisaaKorko() {
+        this.saldo += (this.saldo * this.vuosiKorko / 100.0) / 12;
+    }
+
+    /**
+     * Saldon tarkistus.
+     * @return double saldo
+     */
+    public double getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * Apumetodi tilin tietojen tulostukseen.
+     * @return String-muotoinen tulostettava lause.
+     */
+    @Override
+    public String toString() {
+        return "vuosiKorko=" + vuosiKorko +
+                "\nsaldo=" + saldo
+                ;
+    }
+}
+
+/**
+ * Luokka tuottaa pankkiautomaatin toimintalogiikan.
+ */
+class Pankkiautomaatti {
+    /** Taulukko tili-olioista. Tämä kuvastaa listaa tileistä. */
+    public Pankkitili[] tilit = new Pankkitili[10];
+
+    /**
+     * Oletusalustaja luokan oliolle. Yrittää lukea "tilit.dat" tiedostosta olemassaolevat saldotiedot.
+     * Tiedoston puuttuessa luo uuden tiedoston ja asettaa kaikkien tilien saldoksi 100.
+     */
+    public Pankkiautomaatti() { // tänne lisätty tiedoston käsittelyä
+        try {
+            File tiedosto = new File("tilit.dat");
+            if (tiedosto.exists()) {
+                FileInputStream tilitiedosto = new FileInputStream("tilit.dat");
+                ObjectInputStream oliot2 = new ObjectInputStream(tilitiedosto);
+                for (int i = 0; i < 10; i++) {
+                    tilit[i] = (Pankkitili) oliot2.readObject();
+                }
+                tilitiedosto.close();
+            } else
+            {
+                for (int i = 0; i < 10; i++) {
+                    this.tilit[i] = new Pankkitili(100);
+                }
+                System.out.println("Lukeminen onnistui.");
+            }
+        }catch (Exception e) {
+            System.out.println("virhe lukemisessa");
+            System.out.println(e);
+        }
+
+
+
+    }
+
+    /**
+     * Tulostaa komentoriville halutin tilin saldon.
+     * @param i on halutun tilin indeksi.
+     */
+    public void saldo(int i) {
+        System.out.println("Tilin " + i + " saldo on " + this.tilit[i].getSaldo());
+    }
+
+    /**
+     * Nostaa tietyltä tililtä annetun summan rahaa.
+     * @param i on halutun tilin indeksi.
+     * @param summa on nostettava rahamäärä.
+     */
+    public void nosto(int i, double summa) {
+        this.tilit[i].nosta(summa);
+    }
+
+    /**
+     * Tallettaa tietylle tilille annetun summan rahaa.
+     * @param i on halutun tilin indeksi.
+     * @param summa on talletettava rahamäärä.
+     */
+    public void pano(int i, double summa) {
+        this.tilit[i].talleta(summa);
+    }
+
+    /**
+     * Kysyy komentorivillä käyttäjältä, mitä tiliä halutaan käsitellä.
+     */
+    public static void kysy_tilinumero() {
+        System.out.println("Mitä tiliä haluat käsitellä (1-10, 0 = lopetus)");
+    }
+
+    /**
+     * Yrittää kirjoittaa saldotiedot tieostoon "tilit.dat".
+     */
+    public void kirjoitaTiedostoon() {
+        try {
+            FileOutputStream tilitiedosto = new FileOutputStream("tilit.dat");
+            ObjectOutputStream oliot = new ObjectOutputStream(tilitiedosto);
+            for (int i= 0; i < 10; i++) {
+                oliot.writeObject(tilit[i]);
+            }
+            tilitiedosto.close();
+            System.out.println("Kirjoitettiin tiedostoon onnistuneesti. ");
+        } catch (Exception e ) {
+            System.out.println("virhe kirjoituksessa.");
+            System.out.println(e);
+
+        }
+
+    }
+
+}
+
+
+
+######################################
+TEHTÄVÄ 6:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ---------- 
+
+
+
+######################################
+TEHTÄVÄ 7:
+######################################
+
+// ---------- Kurssi.java ----------
+
+// ---------- Main.java ---------- 
+

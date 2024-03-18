@@ -1,0 +1,239 @@
+/*
+Toteutuneita asioita
++ Jokainen yläluokka on erillisessä tiedostossa.
++ If, else, for ja muissa vastaavissa tilanteissa on aina käytetty {}-merkintää, vaikka se teknisesti olisikin vapaaehtoista.
++ Muuttujien määrittelyssä ei ole määritelty useaa muuttujaa samassa lauseessa.
++ Metodien nimet on kirjoitettu lowerCamelCase-tyyppisesti.
++ Luokkien nimet on kirjoitettu UpperCamelCase-tyyppisesti.
+
+Puuttuvia tai korjattavia asioita
+- Ylimääräisiä rivinvaihtoja on siellä täällä.
+- Rivinvaihtoja myös puuttuu välillä. Pitäisi olla erottamassa loogisia blokkeja.
+- Aaltosulkeiden yhteydessä rivinvaihdot eivät aina noudata ohjetta. Aloittava aaltosulje on oikein, mutta sen jälkeen pitäisi aina tulla rivinvaihto. Lisäksi lopettava aaltosulku pitäisi aina olla omalla rivillään ja tietyissä tilanteissa heti sen perään tulisi jatkaa seuraavaa määritelmää (esim. else).
+- Indentaatio pitäisi olla 2, nyt se on 4 välilyöntiä.
+- Parin muuttujan nimi alkaa yhden kirjaimen etuliitteellä, esim. dSumma. Pitäisi kai olla doubleSumma, jos muuttujan nimessä haluaa välittää tiedon muuttujan tyypistä.
+- Pakkauksen nimessä ei saisi olla alaviivoja, vaan kaikki "sanat" liitetään vain yhteen.
+- Javadoc-kommenteissa pitäisi olla tyhjä rivi ennen "@param" tai "@return" rivejä.
+- Javadoc puuttuu monesta "public"-luokasta ja -metodista.
+
+
+===========================================================
+Harjoitus 7 - Tehtävä 6
+----------------------------------------------------------
+*/
+package com.example.oh2_2024_harjoitukset_7;
+
+import java.io.Serializable;
+
+public class Pankkitili implements Serializable {
+    private double vuosiKorko;
+    private double saldo;
+    /**
+     * Pankkiili alkusaldolla.
+     * @param saldo
+     */
+    public Pankkitili(double saldo) {
+        this.saldo = saldo;
+    }
+    public Pankkitili(Pankkitili tili) {
+        this.saldo = tili.getSaldo();
+    }
+    /**
+     * Vuosikoron asetus
+     * @param vuosiKorko
+     */
+    public void setVuosiKorko(double vuosiKorko) {
+        this.vuosiKorko = vuosiKorko;
+    }
+
+    /**
+     * Summan talletus tilille.
+     * @param summa
+     */
+    public void talleta(double summa) {
+        if (summa > 0){
+            this.saldo += summa;
+            System.out.println("Talletettiin " + summa);
+        }
+        else
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+    }
+    /**
+     * Summan nosto tililta.
+     * @param summa
+     */
+    public void nosta(double summa) {
+        if (summa < 0)
+            System.out.println("Rahamaaran pitaa olla positiivinen arvo!");
+        else if (summa <= this.saldo) {
+            this.saldo -= summa;
+            System.out.println("Nostettiin " + summa);
+        }
+        else {
+            System.out.println("Tililla ei ole riittavasti katetta.");
+            System.out.println("Nostettiin " + this.saldo);
+            this.saldo = 0;
+
+        }
+    }
+    /**
+     * Kuukausikoron lisays.
+     */
+    public void lisaaKorko() {
+        this.saldo += (this.saldo * this.vuosiKorko / 100.0) / 12;
+    }
+    /**
+     * Saldon tarkistus.
+     * @return
+     */
+    public double getSaldo() {
+        return saldo;
+    }
+
+    @Override
+    public String toString() {
+        return "vuosiKorko=" + vuosiKorko +
+                "\nsaldo=" + saldo
+                ;
+    }
+}
+
+// ---------------------------------------------------------------------
+package com.example.oh2_2024_harjoitukset_7;
+
+import java.io.*;
+
+public class Pankkiautomaatti {
+    public Pankkitili[] tilit = new Pankkitili[10];
+
+    public Pankkiautomaatti() { // tänne lisätty tiedoston käsittelyä
+        try {
+            File tiedosto = new File("tilit.dat");
+            if (tiedosto.exists()) {
+                FileInputStream tilitiedosto = new FileInputStream("tilit.dat");
+                ObjectInputStream oliot2 = new ObjectInputStream(tilitiedosto);
+                for (int i = 0; i < 10; i++) {
+                    tilit[i] = (Pankkitili) oliot2.readObject();
+                }
+                tilitiedosto.close();
+            } else
+            {
+                for (int i = 0; i < 10; i++) {
+                    this.tilit[i] = new Pankkitili(100);
+                }
+                System.out.println("Lukeminen onnistui.");
+            }
+        }catch (Exception e) {
+            System.out.println("virhe lukemisessa");
+            System.out.println(e);
+        }
+
+
+
+    }
+    public void saldo(int i) {
+        System.out.println("Tilin " + i + " saldo on " + this.tilit[i].getSaldo());
+    }
+    public void nosto(int i, double summa) {
+        this.tilit[i].nosta(summa);
+    }
+    public void pano(int i, double summa) {
+        this.tilit[i].talleta(summa);
+    }
+
+    public static void kysy_tilinumero() {
+        System.out.println("Mitä tiliä haluat käsitellä (1-10, 0 = lopetus)");
+    }
+    public void kirjoitaTiedostoon() { // lisäys
+        try {
+            FileOutputStream tilitiedosto = new FileOutputStream("tilit.dat");
+            ObjectOutputStream oliot = new ObjectOutputStream(tilitiedosto);
+            for (int i= 0; i < 10; i++) {
+                oliot.writeObject(tilit[i]);
+            }
+            tilitiedosto.close();
+            System.out.println("Kirjoitettiin tiedostoon onnistuneesti. ");
+        } catch (Exception e ) {
+            System.out.println("virhe kirjoituksessa.");
+            System.out.println(e);
+
+        }
+
+    }
+
+}
+// ---------------------------------------------------------------------------
+package com.example.oh2_2024_harjoitukset_7;
+
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+public class PankkiKayttoliittyma extends Application {
+    int iTili = 0;
+    double dSumma = 0;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Pankkiautomaatti automaatti = new Pankkiautomaatti();
+        String [] sTilinumeroLista = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        BorderPane brPohja = new BorderPane();
+        ListView<String> lv = new ListView<>
+                (FXCollections.observableArrayList(sTilinumeroLista));
+        lv.setPrefSize(50,300);
+        lv.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        brPohja.setLeft(lv);
+
+        TextArea taTiedot = new TextArea("Tilin tiedot");
+        brPohja.setCenter(taTiedot);
+
+        HBox hbPainikkeet = new HBox();
+        Label lbTyhja = new Label("                ");
+        Button btNosta = new Button("Nosta");
+        Button btTalleta = new Button("Talleta");
+        Label lbSumma = new Label("  Summa:");
+        TextField tfSumma = new TextField();
+        Button btLopeta = new Button("Lopeta");
+        hbPainikkeet.setPadding(new Insets(10, 10, 10, 10));
+        hbPainikkeet.getChildren().addAll(lbTyhja, btNosta, btTalleta, lbSumma, tfSumma, btLopeta);
+
+        brPohja.setBottom(hbPainikkeet);
+
+        lv.getSelectionModel().selectedItemProperty().addListener(
+                ov -> {
+                    //selitys = "Valitsit: ";
+                    iTili = lv.getSelectionModel().getSelectedIndex();
+                    taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+                });
+
+        btNosta.setOnAction(e -> {
+            dSumma = Double.parseDouble(tfSumma.getText());
+            automaatti.tilit[iTili].nosta(dSumma);
+            taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+        });
+        btTalleta.setOnAction(e -> {
+            dSumma = Double.parseDouble(tfSumma.getText());
+            automaatti.tilit[iTili].talleta(dSumma);
+            taTiedot.setText("Tilin " + (iTili+1) + " tiedot\n" +automaatti.tilit[iTili].toString());
+        });
+        btLopeta.setOnAction(e -> {
+            automaatti.kirjoitaTiedostoon();
+            System.exit(0);
+        });
+
+        Scene scene = new Scene(brPohja, 500, 400);
+        primaryStage.setTitle("Käsittele pankkitiliä:");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}
+// ---------------------------------------------------------------

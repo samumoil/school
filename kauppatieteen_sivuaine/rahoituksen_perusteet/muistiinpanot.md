@@ -104,7 +104,7 @@ Nykyään pörssin kautta tehtyjä omistuksia merkitään **arvo-osuuksina**.
 
 ## Velkainstrumentit
 
-### Rahoituslaitoslainat (pankkilainat?)
+Q### Rahoituslaitoslainat (pankkilainat?)
 Erilaiset lainat ovat merkittävin rahoituksen lähde yrityksille. Lainoja yrityksille myöntävät
 - Pankit
 - Vakuutusyhtiöt
@@ -217,8 +217,9 @@ Investointilaskentaan vaikuttaa myös tarvittava lisäys ***käyttöpääomaan**
 Nettonykyarvo = Yhteenlaskettu (vuosittainen nettokassavirta/lainanhoitokulu) + jäännösarvo/lainanhoitokulu - hankintameno
 
 EXCEL-laskenta on automatisoitu näin:
-NNA(korko%; kassavirta1; kassavirta2; ...; kassavirtaN)
-NNA(6%;C3:C6)
+
+	NNA(korko%; kassavirta1; kassavirta2; ...; kassavirtaN)
+	NNA(6%;C3:C6)
 
 ***Nykyarvoindeksi*** on nettonykyarvon variaatio, jossa hankintamenolla jaetaan vuosittaiset nettokassavirrat/lainanhoitokulu ja jäännösarvo/lainanhoitokulu. Nykyiarvoindeksi on suhdeluku ja sen pitäisi olla suurempi kuin yksi, jotta investointi on kannattava. 
 

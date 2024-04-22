@@ -335,29 +335,31 @@ Hinta = Nimellisarvo / (1+(r * todelliset_päivät/360))
 
 Williams esitti vuonna 1938 yleisen mallin osakkeen arvon laskennalle. Tuossa mallissa otetaan huomioon vain ja ainoastaan osinkojen maksu, jolloin osakkeen itsensä arvo jää huomioitta. Nykyään on käytössä seuraava malli:
 
-P0 = Osakkeen arvo nykyhetkellä
-P1 = Osakkeen arvo ensimmäisen vuoden lopussa
-P2 = Osakkeen arvo toisen vuoden lopussa (sisältää kaikki tulevien vuosien diskontatut osingot)
-D1 = Ensimmäisen vuoden lopussa maksettavat osingot (dividends)
-D2 = Toisen vuoden osingot
-r = Sijoittajan tuotto-odotus
+P0 = Osakkeen arvo nykyhetkellä  
+P1 = Osakkeen arvo ensimmäisen vuoden lopussa  
+P2 = Osakkeen arvo toisen vuoden lopussa (sisältää kaikki tulevien vuosien diskontatut osingot)  
+D1 = Ensimmäisen vuoden lopussa maksettavat osingot (dividends)  
+D2 = Toisen vuoden osingot  
+r = Sijoittajan tuotto-odotus  
 
 P0 = D1/(1+r) + (D2+P2)/(1+r)^2
 
 Tästä kaavasta voidaan ratkaista myös *r*, jolloin saadaan tietoon yhden periodin odotettu tuotto (one-period return):
 
-r = (D1+(P1-P0))/P0
-r = (odotetut osingot periodin lopussa + osakkeen arvon muutos periodin aikana) / (osakkeen arvo periodin alussa)
-
+r = (D1+(P1-P0))/P0  
+r = (odotetut osingot periodin lopussa + osakkeen arvon muutos periodin aikana) / (osakkeen arvo periodin alussa)  
+ 
 ## Osinkojen diskonttausmallit
 
 Näissä malleissa osakkeen arvoa arvioidaan yrityksen maksamien osinkojen perusteella. Periaate on, että yksittäisen osakkeen arvo on se summa, joka saadaan, kun lasketaan yhteen ikuisuuteen asti kaikki *diskontatut* osingot. Taikasana tässä on *diskontatut*, koska pitkälle tulevaisuuteen ulottuvat osingot ovat nykyarvoon siirrettynä lähellä nollaa.
 
 (Malli on monimutkainen, katso materiaalista.)
 
-Jos yritys noudattaa ***osinkojen tasaisen kasvun mallia***, voidaan osakkeen arvon määritykseen käyttää hyvinkin yksinkertaista mallia. Tässä mallissa *g* on *kasvutekijä* (kasvun kulmakerroin?). 
+Jos yritys noudattaa ***osinkojen tasaisen kasvun mallia***, voidaan osakkeen arvon määritykseen käyttää hyvinkin yksinkertaista mallia. Tässä mallissa *g* on *kasvutekijä* (kasvun kulmakerroin?).  
 
-***VAATIMUS: r > g***
+    g = kasvuinvestointien tuottoprosentti * yrityksessä pidätettävä osuus voitosta
+
+***VAATIMUS: r > g***  
 
 P0 = (1+g)*D0 / (r-g) = D1/(r-g) = **Gordonin malli**
 
@@ -415,7 +417,7 @@ Myöskään osinkojen ajoittumisella ei näytä olevan laskennallista merkityst�
 
 Käytännössä on havaittu, että sijoittavat arvostavat enemmän osinkoja kuin yrityksen arvon kasvua. Osingon nosto ilmaisee, että "yritys kykenee ylläpitämään kannattavasti tätä uutta osingon tasoa". Eli käytännössä, kun osinkoa nostetaan, myös osakkeen arvo nousee.
 
-# Viikko 6 - Portfolioteorio ja CAPM
+# VIIKKO 6 - Portfolioteorio ja CAPM
 
 Tämän jakson jälkeen oppilaan tulee osata seuraavat käsitteet:
 
@@ -596,13 +598,13 @@ Jos arvopaperi ei sijoitu em. arvopaperimarkkinasuoralle, se on väärin hinnoit
 
 ***CAPM:n mukaan osakkeen kohdalla vallitsee tasapainotila silloin, kun osakkeen tuotto-odotus vastaa sen systemaattista riskiä.***
 
-# Viikko 7 - Rahoitusrakenne ja WACC
+# VIIKKO 7 - Rahoitusrakenne ja WACC
 
 Opiskelijan tulee omaksua ja oppia ainakin seuraavat käsitteet:
 
-Optimaalinen pääomarakenne ja velkaantumisen vaikutus yrityksen arvoon, Moldigianin ja Millerin propositiot I ja II, arbitraasi, pääoman painotettu keskimääräinen kustannus (WACC), konkurssikustannukset, agenttikustannukset, ja kovenantit.
+*Optimaalinen pääomarakenne ja velkaantumisen vaikutus yrityksen arvoon, Moldigianin ja Millerin propositiot I ja II, arbitraasi, pääoman painotettu keskimääräinen kustannus (WACC), konkurssikustannukset, agenttikustannukset, ja kovenantit.*
 
-Lisäksi opiskelijan tulee oppia laskemaan WACC sekä muuta soveltuvaa ja oppimista tukevaa laskentaa harjoitusten mukaisesti.
+*Lisäksi opiskelijan tulee oppia laskemaan WACC sekä muuta soveltuvaa ja oppimista tukevaa laskentaa harjoitusten mukaisesti.*
 
 ***Tulorahoitus eli sisäinen rahoitus*** on pääasiassa myynnistä saatavaa tuloa. ***Ulkoinen rahoitus*** on nimensä mukaisesti yhtiön ulkopuolelta tulevaa rahoitusta, joka voi olla mm.:
 - Myyntisaatavia
@@ -661,10 +663,10 @@ Eli matemaattisesti:
 
 	r(equity) = r(asset) + D/E * (r(asset) - r(equity))
 
-r(equity) = oman pääoman tuottovaatimus
-r(asset) = WACC = koko yrityksen pääoman tuottvoaatimus
-D = velka
-E = osakekannan markkina-arvo
+r(equity) = oman pääoman tuottovaatimus  
+r(asset) = WACC = koko yrityksen pääoman tuottvoaatimus  
+D = velka  
+E = osakekannan markkina-arvo  
 
 ## Pääomamarkkinoiden epätäydellisyys
 
@@ -683,14 +685,14 @@ Verotuksen korkovähennyksen ansiosta saman tuoton tekevät, mutta eri velka-ast
 	
 	V(velkainen) = V(velaton) + T*D
 
-T = veroprosentti
-D = velka
+T = veroprosentti  
+D = velka  
 
 Teoriassa on olemassa tilanne, jossa yrityksen velan määrä on paras mahdollinen yrityksen arvon kannalta. Tämä on ***optimaalinen pääomarakenne***. Teorian mukaan velan määrä kasvattaisi yrityksen arvo loputtomasti, mutta muut asiat rajoittavat sitä.
 
 ### Pääoman kustannus ja verot
 
-Kun siirretään MM II verolliseen maailmaan, saadaan se muotoon:
+Kun siirretään MM II verolliseen maailmaan, saadaan oman pääoman tuottovaatimus muotoon:
 
 	r(equity) = r(asset) + D/E*(r-r(debt))*(1-T)
 
@@ -703,17 +705,17 @@ T = veroprosentti
 
 #### Velkaisen yrityksen WACC
 
-	r(asset) = E/(E+D)*r(equity) + D(E+D)*r(debt)*(1-T)
+	r(asset) = E/(E+D)*r(equity) + D/(E+D)*r(debt)*(1-T)
 
 Jos halutaan käyttää tätä tuotto-odotusta yrityksen arvon laskemiseksi, täytyy ottaa huomioon, ettei verohyötyä ole laskuissa kahteen kertaan. Tällöin voidaan yrityksen arvo laskea joko:
 
 - Jättämällä verohyöty pois WACC-laskusta ja käyttämällä sitä tuottovaatimusta laskussa
 
-```V = Nettotuotto/r(asset)```
+	```V = Nettotuotto/r(asset)```
 
 - Jättämällä verohyöty pois tulovirran eli nettotuoton laskusta
 
-```V = (Nettotulos ilman veroja + korot - korkojen verohyöty)/r(asset)```	
+	```V = (Nettotulos ilman veroja + korot - korkojen verohyöty)/r(asset)```
 
 ### Konkurssikustannukset
 

@@ -346,7 +346,8 @@ P0 = D1/(1+r) + (D2+P2)/(1+r)^2
 
 Tästä kaavasta voidaan ratkaista myös *r*, jolloin saadaan tietoon yhden periodin odotettu tuotto (one-period return):
 
-r = (D1+(P1-P0))/P0  
+	r = (D1+(P1-P0))/P0
+
 r = (odotetut osingot periodin lopussa + osakkeen arvon muutos periodin aikana) / (osakkeen arvo periodin alussa)  
  
 ## Osinkojen diskonttausmallit

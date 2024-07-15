@@ -17,9 +17,8 @@
 
         <TextView
             android:id="@+id/tvTulokset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World!" />
+            style="@style/tekstinsyotto"
+            android:text="@string/selitysteksti_upper" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,30 +31,27 @@
 
         <EditText
             android:id="@+id/etLainamaara"
-            android:inputType="number"
-            android:text="@string/lainamaara_vinkki"
+            android:inputType="numberDecimal"
+            android:hint="@string/lainamaara_vinkki"
             style="@style/tekstinsyotto" />
 
         <EditText
             android:id="@+id/etLainanKesto"
             style="@style/tekstinsyotto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="@string/lainankesto_vinkki" />
+            android:hint="@string/lainankesto_vinkki"
+            android:inputType="number" />
 
         <TextView
             android:id="@+id/tvKorkoprosentti"
             style="@style/tekstinsyotto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="@string/korkonaytto" />
 
         <SeekBar
             android:id="@+id/sbKoronValinta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:max="50"
+            android:min="0"
             android:minHeight="48dp" />
     </LinearLayout>
 

@@ -2,5 +2,8 @@
     <string name="app_name">Lainalaskuri_mallin_mukaan</string>
     <string name="lainamaara_vinkki">Anna lainan määrä</string>
     <string name="lainankesto_vinkki">Anna lainan kesto kuukausina</string>
-    <string name="korkonaytto">Korkoprosentti: </string>
+    <string name="korkonaytto">Korkoprosentti:</string>
+    <string name="selitysteksti_upper">Tämä on lainalaskuri, pälä pälä.</string>
+    <string name="lainamaara_teksti">Lainan määrä:</string>
+    <string name="lainankesto_teksti">Lainan kesto:</string>
 </resources>

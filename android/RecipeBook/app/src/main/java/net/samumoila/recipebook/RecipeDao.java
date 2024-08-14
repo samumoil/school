@@ -13,4 +13,10 @@ public interface RecipeDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(Recipe... recipes);
+
+    @Query("SELECT * FROM recipe")
+    Recipe[] getAllRecipes();
+
+    @Query("DELETE FROM recipe")
+    void deleteAll();
 }

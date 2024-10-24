@@ -1,3 +1,4 @@
+import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
 
 public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
@@ -13,10 +14,32 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
         queueSize = 0;
     }
 
-    public TRAI_24_X7_samumoi_linkedlist(E x) {
-        lista = new AnchorNode<>(x);
-        globalModCount = 0;
-        queueSize = 1;
+    private class AnchorNode<E> {
+        private Node<E> headNode;
+        private Node<E> tailNode;
+
+        public <E> AnchorNode() {
+        }
+
+        public Node<E> getHeadNode() {
+            return headNode;
+        }
+
+        public <E> void addTailNode(E x) {
+            if (headNode == null) {
+                headNode = new Node(x);
+                tailNode = headNode;
+            } else {
+                tailNode.setSuccNode(new Node(x));
+                tailNode = tailNode.getSuccNode();
+            }
+        }
+
+        public E delHeadNode() {
+            E payload = headNode.getAndClearPayload();
+            headNode = headNode.getAndClearSuccNode();
+            return payload;
+        }
     }
 
     private class Node<E> {
@@ -28,11 +51,15 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
         }
 
         public void setSuccNode(Node<E> succNode) {
-            succNode = succNode;
+            this.succNode = succNode;
         }
 
         public Node getSuccNode() {
             return succNode;
+        }
+
+        public E getPayload() {
+            return payload;
         }
 
         public Node getAndClearSuccNode() {
@@ -41,51 +68,10 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
             return returnSuccNode;
         }
 
-        public E getPayload() {
-            return payload;
-        }
-
-        public <E> E getAndClearPayload() {
+        public E getAndClearPayload() {
             E returnPayload = payload;
             payload = null;
             return returnPayload;
-        }
-    }
-
-    private class AnchorNode<E> {
-        public Node<E> headNode;
-        public Node<E> tailNode;
-
-        public <E> AnchorNode() {
-        }
-
-        public <E> AnchorNode(E x) {
-            headNode = new Node(x);
-            tailNode = headNode;
-        }
-
-        public <E> void setHeadNode(E x) {
-            headNode = new Node(x);
-        }
-
-        public Node<E> getHeadNode() {
-            return headNode;
-        }
-
-        public E delHeadNode() {
-            E payload = headNode.getAndClearPayload();
-            headNode = headNode.getAndClearSuccNode();
-            return payload;
-        }
-
-        public <E> void setTailNode(E x) {
-            tailNode.setSuccNode(new Node(x));
-            tailNode = tailNode.getSuccNode();
-            queueSize++;
-        }
-
-        public Node<E> getTailNode() {
-            return tailNode;
         }
     }
 
@@ -97,13 +83,7 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
      */
     @Override
     public boolean add(E x) {
-        if (lista.getHeadNode() == null) {
-            lista.setHeadNode(new Node(x));
-            lista.setTailNode(lista.getHeadNode());
-        } else {
-            lista.getTailNode().setSuccNode(new Node(x));
-            lista.setTailNode(lista.getTailNode().getSuccNode());
-        }
+        lista.addTailNode(x);
         queueSize++;
         globalModCount++;
         return true;
@@ -139,7 +119,15 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
 
     @Override
     public String toString() {
-        return null;
+        StringBuilder merkkijono = new StringBuilder("[");
+        Node<E> noodi = lista.getHeadNode();
+        for (int i=0; i<queueSize; i++) {
+            merkkijono.append(noodi.getPayload().toString() + ", ");
+            noodi = noodi.getSuccNode();
+        }
+        merkkijono.delete(merkkijono.length()-2, merkkijono.length());
+        merkkijono.append("]");
+        return merkkijono.toString();
     }
 
     /**
@@ -158,14 +146,34 @@ public class TRAI_24_X7_samumoi_linkedlist<E> implements TRAI_24_X7<E> {
     }
 
     private class Iterator<E> implements java.util.Iterator<E> {
+
+        private Node<E> noodi;
+        private int modCount;
+
+        public Iterator() {
+            noodi = (Node<E>) lista.getHeadNode();
+            modCount = globalModCount;
+        }
+
         @Override
         public boolean hasNext() {
-            return false;
+            if (modCount != globalModCount) {
+                throw new ConcurrentModificationException();
+            }
+            return (noodi != null);
         }
 
         @Override
         public E next() {
-            return null;
+            if (modCount != globalModCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (noodi == null) {
+                throw new NoSuchElementException();
+            }
+            E returnE = noodi.getPayload();
+            noodi = noodi.getSuccNode();
+            return returnE;
         }
     }
 

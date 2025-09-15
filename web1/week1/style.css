@@ -1,0 +1,13 @@
+nav {
+    border: 6px solid black;
+    border-radius: 5%;
+}
+
+header {
+    text-align: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,6 +1,18 @@
+
+* {
+    background-color: wheat;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+}
+
 nav {
     border: 6px solid black;
     border-radius: 5%;
+    background-color: antiquewhite;
+}
+
+nav ul, nav li, nav a {
+    background-color: antiquewhite;
 }
 
 header {
@@ -11,3 +23,17 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+#img_samu {
+    border-radius: 30%;
+    border-style: groove;
+}
+
+footer {
+    font-style: italic;
+}
+
+input, textarea {
+    background-color: white;
+}
+

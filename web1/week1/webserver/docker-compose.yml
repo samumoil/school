@@ -1,6 +1,6 @@
 ---
 services:
-  webserver:
+  webserver-week1:
     image: nginx
     restart: no
     ports:

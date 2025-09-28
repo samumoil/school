@@ -1,0 +1,9 @@
+---
+services:
+  webserver-week1:
+    image: nginx
+    restart: no
+    ports:
+      - "80:80"
+    volumes:
+      - ../:/usr/share/nginx/html

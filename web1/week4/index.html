@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Search</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- jQuery CDN (needed for Toastr) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- Toastr CSS and JS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <style>
+    #searchResults {
+      margin-top: 20px;
+    }
+    .movie {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .movie h3 {
+      margin: 0;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body class="container my-4">
+
+  <h1 class="text-center mb-4">Movie Search</h1>
+  <form id="searchForm" class="row g-3">
+    <div class="col-md-8">
+      <input type="text" id="searchQuery" class="form-control" placeholder="Enter movie title" required>
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+  </form>
+
+  <div id="searchResults" class="row mt-4"></div>
+
+  <script>
+    // -----------------
+    // Write your code here or create a separate .js file if you prefer
+    // -----------------
+
+    const apiKey = '2e7e592b'; // This should be done via env variable for more security.
+    const resultDiv = document.getElementById('searchResults')
+
+    document.getElementById('searchForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      resultDiv.innerHTML = ``;
+
+      var query = document.getElementById('searchQuery').value;
+      console.log(`User searched: "${query}"`);
+      toastr.info(`${query}`,`Searching database for:`);
+
+      try {
+        const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${query}`);
+        const data = await response.json();
+        console.log(data);
+
+        if (data.Response === "False") {
+          toastr.error(`No movies found`);
+        } else if (data.Response === "True") {
+          toastr.success(`Movies found!`);
+
+          data.Search.forEach(movie => {
+            console.log(movie.Title);
+
+            const movieDiv = document.createElement('div');
+            resultDiv.appendChild(movieDiv);
+            movieDiv.classList.add('movie', 'col-md-4', 'mb-4');
+            movieDiv.innerHTML = `
+              <img src=${movie.Poster} class="img-fluid"/>
+              <h3>${movie.Title}</h3>
+              <p>
+                Release year: ${movie.Year}</br>
+                Type: ${movie.Type}
+              </p>
+            `;
+          });
+        } else {
+          toastr.warning(`Something unexpected happened...?`, `An error occured while searching`);
+        }
+      } catch(err) {
+        toastr.error(`${err}`, `An error occured: `);
+        console.error(`Error during OMDB search: ${err}`);
+      }
+
+    });
+
+    // -----------------
+    // ...
+    // -----------------
+
+  </script>
+
+</body>
+</html>

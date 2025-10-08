@@ -6,7 +6,8 @@ function Product({ product, addToCart }) {
     <Card style={{ width: '18rem' }}>
       <Card.Body>
         <Card.Title>{product.name}</Card.Title><br/>
-        <Button onClick={() => addToCart({product})} variant="primary">Add to cart</Button>
+        <Card.Text>Pisteet: {product.points}</Card.Text>
+        <Button onClick={() => addToCart(product)} variant="primary">Add to cart</Button>
       </Card.Body>
     </Card>
   );

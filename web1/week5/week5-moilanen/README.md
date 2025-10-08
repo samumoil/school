@@ -1,16 +1,40 @@
-# React + Vite
+# Week 5 tasks
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+We want to create a Shopping App where users can see a list of products, add them to a shopping cart, and view the cart's contents. Use vite to create the structure of the project
 
-Currently, two official plugins are available:
+## Steps:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### App Component (Main Component):
 
-## React Compiler
+Create the main App component that holds the state for the list of products and the shopping cart.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ProductList Component (Props):
 
-## Expanding the ESLint configuration
+Create a ProductList component that receives the list of products as a prop and renders a list of Product components.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Product Component (Props):
+
+Create a Product component that receives the product details (name, price, etc.) as props.
+
+This component should have a button labeled “Add to Cart” which triggers a function passed from ProductList (also passed to it as a prop from App) to add that product to the cart.
+
+### Cart Component (State):
+
+Create a Cart component that displays the items added to the cart.
+
+The Cart component should use state to manage the list of products added.
+
+Display the product name and price in the cart and calculate the total price dynamically.
+
+### Add and Remove from Cart Functionality:
+
+Create functions in the App component to handle adding products to the cart and removing them.
+
+Pass the addToCart and removeFromCart functions as props to the appropriate components.
+
+### Bonus (Optional):
+
+Add a button in the cart to increase or decrease the quantity of each product.
+
+Add a message if the cart is empty.
+
